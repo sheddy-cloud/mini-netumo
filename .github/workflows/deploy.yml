@@ -34,4 +34,4 @@ jobs:
             # set env
             sudo apt update
             sudo apt upgrade
-            sudo apt install nginx
+            sudo apt install nginx -y
