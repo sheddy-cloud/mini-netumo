@@ -49,3 +49,4 @@ jobs:
                 location / {
                   try_files \$uri \$uri/ =404;
                 }" | sudo tee /etc/nginx/conf.d/app.conf
+            sudo service nginx restart
