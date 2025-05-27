@@ -9,7 +9,7 @@ on:
 jobs:
   deploy:
     name: Push to EC2
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout the code
