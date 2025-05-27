@@ -40,8 +40,8 @@ jobs:
             sudo systemctl stop nginx
             sudo rm -f /etc/nginx/conf.d/app.conf
             echo "server {
-                listen 80;
-                server_name ${{ secrets.HOST_DNS }};
+                listen 80 default_server;
+                server_name _;
 
                 root /var/www/html;
                 index index.html index.htm index.nginx-debian.html;
