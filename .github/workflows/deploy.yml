@@ -35,3 +35,19 @@ jobs:
             sudo apt update
             sudo apt upgrade
             sudo apt install nginx -y
+            cat <<EOF | sudo tee /etc/nginx/sites-available/default
+            server {
+              listen 80 default_server;
+              listen [::]:80 default_server;
+
+              server_name ec2-13-61-18-141.eu-north-1.compute.amazonaws.com;
+
+              root /var/www/html;
+              index index.html index.htm index.nginx-debian.html;
+
+              location / {
+                try_files \$uri \$uri/ =404;
+              }
+            }
+            EOF
+            sudo systemctl reload nginx
