@@ -2,7 +2,7 @@
 
 A mini version of website monitoring platform like Netumo. It performs scheduled HTTP/HTTPS checks, monitors SSL and domain expiry, and sends alerts via email.
 
-##Features
+## Features
 -HTTP/HTTPS status and latency checks every 5 minutes
 -SSL certificate expiry check (daily)
 -Domain registration expiry check (daily)
