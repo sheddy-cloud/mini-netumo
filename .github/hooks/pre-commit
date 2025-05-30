@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "Cleaning up frontend code base"
+
+npx eslint ./frontend --fix
+npx prettier --write ./frontend
+
+echo "Verify code clean up"
+
+npx eslint ./frontend
+
+if [ $? -ne 0 ]; then
+    echo "Some lint error still remain"
+    exit 1
+fi
