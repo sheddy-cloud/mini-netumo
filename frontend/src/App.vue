@@ -1,6 +1,4 @@
 <script>
-    import HelloWorld from './components/HelloWorld.vue'
-
     import "./assets/vendors/bootstrap/css/bootstrap.min.css"
     import "./assets/vendors/bootstrap-icons/bootstrap-icons.css"
     import "./assets/vendors/boxicons/css/boxicons.min.css"
