@@ -1,5 +1,5 @@
 <script>
-import logo from "../assets/img/logo.png"
+import logo from "../../assets/img/logo.png"
 // TODO: Add other images
 
 </script>

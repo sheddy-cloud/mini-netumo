@@ -1,5 +1,5 @@
 <script>
-import PanelHeader from '../components/PanelHeader.vue';
+import PanelHeader from '../components/ui/PanelHeader.vue';
 
 export default {
   name: 'PanelLayout',
