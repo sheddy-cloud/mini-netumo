@@ -28,6 +28,7 @@ A mini version of website monitoring platform like Netumo. It performs scheduled
 - AWS EC2 instance (t3.micro, Ubuntu)
 - Docker & Docker Compose installed
 - Open ports 80 (HTTP) and 443 (HTTPS)
+  
 ### 2. Clone the Repository
 ```bash
 git clone https://github.com/sheddy-cloud/mini-netumo.git
