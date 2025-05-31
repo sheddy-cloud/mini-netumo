@@ -21,22 +21,10 @@
 
   import "./assets/js/main.js"
 
-import ErrorLayout from './Layouts/ErrorLayout.vue'
-
-
-  export default {
-    name: 'Dashboard',
-    components: {
-      ErrorLayout
-    }
-  }
 </script>
 
 <template>
- <ErrorLayout
-  code="500"
-  message="Internal server error"
- />
+  <router-view />
 </template>
 
 <style scoped>
