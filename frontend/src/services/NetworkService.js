@@ -6,5 +6,3 @@ export default net = axios.create({
     timeout: 100000,
     headers: {},
 })
-
-

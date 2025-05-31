@@ -6,7 +6,7 @@
     import "./assets/vendors/quill/quill.bubble.css"
     import "./assets/vendors/remixicon/remixicon.css"
     import "./assets/vendors/simple-datatables/style.css"
-  
+
     import "./assets/css/style.css"
 
 
@@ -21,7 +21,7 @@
 
   import "./assets/js/main.js"
 
-import ErrorLayout from './Layouts/ErrorLayout.vue'  
+import ErrorLayout from './Layouts/ErrorLayout.vue'
 
 
   export default {

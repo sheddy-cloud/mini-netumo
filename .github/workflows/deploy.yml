@@ -11,7 +11,7 @@ jobs:
     name: Push to EC2
     runs-on: ubuntu-22.04
     if: github.event.head_commit.message != 'skip ci'
-    
+
     steps:
       - name: Checkout the code
         uses: actions/checkout@v1
@@ -36,7 +36,7 @@ jobs:
             sudo apt update
             sudo apt upgrade
             sudo apt install nginx -y
-            
+
             # setup nginx server
             sudo systemctl stop nginx
             sudo rm -f /etc/nginx/conf.d/app.conf

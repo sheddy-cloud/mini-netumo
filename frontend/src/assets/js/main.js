@@ -8,7 +8,7 @@
 
 (function() {
     "use strict";
-  
+
     /**
      * Easy selector helper function
      */
@@ -20,7 +20,7 @@
         return document.querySelector(el)
       }
     }
-  
+
     /**
      * Easy event listener function
      */
@@ -31,14 +31,14 @@
         select(el, all).addEventListener(type, listener)
       }
     }
-  
+
     /**
-     * Easy on scroll event listener 
+     * Easy on scroll event listener
      */
     const onscroll = (el, listener) => {
       el.addEventListener('scroll', listener)
     }
-  
+
     /**
      * Sidebar toggle
      */
@@ -47,7 +47,7 @@
         select('body').classList.toggle('toggle-sidebar')
       })
     }
-  
+
     /**
      * Search bar toggle
      */
@@ -56,7 +56,7 @@
         select('.search-bar').classList.toggle('search-bar-show')
       })
     }
-  
+
     /**
      * Navbar links active state on scroll
      */
@@ -76,7 +76,7 @@
     }
     window.addEventListener('load', navbarlinksActive)
     onscroll(document, navbarlinksActive)
-  
+
     /**
      * Toggle .header-scrolled class to #header when page is scrolled
      */
@@ -92,7 +92,7 @@
       window.addEventListener('load', headerScrolled)
       onscroll(document, headerScrolled)
     }
-  
+
     /**
      * Back to top button
      */
@@ -108,7 +108,7 @@
       window.addEventListener('load', toggleBacktotop)
       onscroll(document, toggleBacktotop)
     }
-  
+
     /**
      * Initiate tooltips
      */
@@ -116,7 +116,7 @@
     var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
       return new bootstrap.Tooltip(tooltipTriggerEl)
     })
-  
+
     /**
      * Initiate quill editors
      */
@@ -125,13 +125,13 @@
         theme: 'snow'
       });
     }
-  
+
     if (select('.quill-editor-bubble')) {
       new Quill('.quill-editor-bubble', {
         theme: 'bubble'
       });
     }
-  
+
     if (select('.quill-editor-full')) {
       new Quill(".quill-editor-full", {
         modules: {
@@ -179,14 +179,14 @@
         theme: "snow"
       });
     }
-  
+
     /**
      * Initiate TinyMCE Editor
      */
-  
+
     const useDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const isSmallScreen = window.matchMedia('(max-width: 1023.5px)').matches;
-  
+
     tinymce.init({
       selector: 'textarea.tinymce-editor',
       plugins: 'preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons accordion',
@@ -234,14 +234,14 @@
             text: 'My text'
           });
         }
-  
+
         /* Provide image and alt text for the image dialog */
         if (meta.filetype === 'image') {
           callback('https://www.google.com/logos/google.jpg', {
             alt: 'My alt text'
           });
         }
-  
+
         /* Provide alternative source and posted for the media dialog */
         if (meta.filetype === 'media') {
           callback('movie.mp4', {
@@ -260,12 +260,12 @@
       content_css: useDarkMode ? 'dark' : 'default',
       content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
     });
-  
+
     /**
      * Initiate Bootstrap validation check
      */
     var needsValidation = document.querySelectorAll('.needs-validation')
-  
+
     Array.prototype.slice.call(needsValidation)
       .forEach(function(form) {
         form.addEventListener('submit', function(event) {
@@ -273,11 +273,11 @@
             event.preventDefault()
             event.stopPropagation()
           }
-  
+
           form.classList.add('was-validated')
         }, false)
       })
-  
+
     /**
      * Initiate Datatables
      */
@@ -301,7 +301,7 @@
         ]
       });
     })
-  
+
     /**
      * Autoresize echart charts
      */
@@ -315,5 +315,5 @@
         }).observe(mainContainer);
       }, 200);
     }
-  
+
   })();

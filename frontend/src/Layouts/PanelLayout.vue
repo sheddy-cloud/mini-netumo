@@ -274,7 +274,7 @@ export default {
                 </ol>
             </nav>
         </div>
-        
+
         <section class="section dashboard">
             <slot />
         </section>

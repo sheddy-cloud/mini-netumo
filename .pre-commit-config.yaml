@@ -1,0 +1,16 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace         # removes trailing spaces
+      - id: end-of-file-fixer           # ensures newline at end of file
+      - id: fix-byte-order-marker       # removes UTF BOM markers
+      - id: mixed-line-ending           # enforces consistent line endings
+  - repo: local
+    hooks:
+      - id: stylelint-css
+        name: stylelint with autofix
+        entry: ./stylelint-wrapper.sh
+        language: node
+        types: [css]
+        files: \.css$
