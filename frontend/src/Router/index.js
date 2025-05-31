@@ -15,6 +15,25 @@ const routes = [
     }
   },
   {
+    // Added: The registration page path
+    path: '/register',
+    name: 'Register', // Unique name for the register route
+    component: RegisterPage, // Link to your RegisterPage component
+    meta: {
+      title: 'Register for Netumo' // Page title for the registration page
+    }
+  },
+  {
+    // This is the root path, currently set to your Dashboard
+    path: '/',
+    name: 'Dashboard', // Name for the dashboard route
+    component: Home,
+    meta: {
+      title: 'Netumo Dashboard', // Page title for the dashboard
+      // You might add meta: { requiresAuth: true } here later for authentication
+    }
+  },
+  {
     path: "/targets/:id",
     name: "target_details",
     component: details,
@@ -35,6 +54,13 @@ const router = createRouter({
   history: createWebHistory(), // Use HTML5 History API for clean URLs
   routes, // Your defined routes
 });
+
+// Global navigation guard to update page titles based on route meta
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title || 'Netumo Lite'; // Default title if not specified
+  next();
+});
+
 
 router.afterEach((to, from) => {
   document.body.classList.remove('toggle-sidebar')
