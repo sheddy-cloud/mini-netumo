@@ -32,4 +32,4 @@ A mini version of website monitoring platform like Netumo. It performs scheduled
 ### 2. Clone the Repository
 ```bash
 git clone https://github.com/sheddy-cloud/mini-netumo.git
-cd mini-netumo```
+cd mini-netumo
