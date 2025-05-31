@@ -3,6 +3,11 @@ import logo from "../../assets/img/logo.png"
 // TODO: Add other images
 
 export default {
+    data() {
+        return {
+            logo
+        }
+    },
     methods: {
         toggle() {
             document.body.classList.toggle("toggle-sidebar");
@@ -16,10 +21,12 @@ export default {
     <header id="header" class="header fixed-top d-flex align-items-center">
 
         <div class="d-flex align-items-center justify-content-between">
-            <a href="index.html" class="logo d-flex align-items-center">
-                <img :src="logo" alt="">
-                <span class="d-none d-lg-block">Mini-Netumo</span>
-            </a>
+            <router-link to="/home">
+                <div href="index.html" class="logo d-flex align-items-center">
+                    <img :src="logo" alt="">
+                    <span class="d-none d-lg-block">Mini-Netumo</span>
+                </div>
+            </router-link>
             <i class="bi bi-list toggle-sidebar-btn" @click="toggle"></i>
         </div>
 

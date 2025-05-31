@@ -1,11 +1,8 @@
-// src/router/index.js
-import { createRouter, createWebHistory } from 'vue-router';
-
-// Import your page components
-import Home from "../pages/home.vue";
-import Login from "../pages/login.vue";
-import RegisterPage from "../pages/register.vue"; // Added: Import the RegisterPage component
-import Error404 from "../pages/error404.vue";
+import { createRouter, createWebHistory } from 'vue-router'
+import login from "../pages/login.vue"
+import home from "../pages/home.vue"
+import error404 from "../pages/error404.vue"
+import details from '../pages/targets/details.vue'
 
 const routes = [
   {
@@ -37,8 +34,12 @@ const routes = [
     }
   },
   {
-    // Catch-all route for 404 errors
-    // This should ALWAYS be the last route in your configuration.
+    path: "/targets/:id",
+    name: "target_details",
+    component: details,
+    props: true
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: Error404,
@@ -60,4 +61,9 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
-export default router;
+
+router.afterEach((to, from) => {
+  document.body.classList.remove('toggle-sidebar')
+})
+
+export default router
