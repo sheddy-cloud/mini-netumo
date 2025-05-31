@@ -1,7 +1,6 @@
 <script>
-import logo from "../../assets/img/logo.png"
 import net from "../../services/NetworkService"
-import endpoints from "../../constants/endpoints"
+import ENDPOINTS from "../../constants/endpoints"
 
 //data
 export default {
@@ -18,7 +17,7 @@ export default {
     methods: {
         async fetchTargets() {
             try{
-                const res = await net.get(endpoints.TARGET);
+                const res = await net.get(ENDPOINTS.TARGET);
                 this.targets = res.data
             }catch (e){
                 this.error = "There was an error while load targets"
@@ -53,8 +52,8 @@ export default {
                         class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li v-for="target in targets" :key="target.target_id">
-                        <router-link :to="`/targets/${target.target_id}`">
+                    <li v-for="target in targets" :key="target.id">
+                        <router-link :to="`/targets/${target.id}`">
                             <i class="bi bi-circle"></i><span>{{ target.name }}</span>
                         </router-link>
                     </li>
