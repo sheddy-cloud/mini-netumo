@@ -1,1 +1,109 @@
-{}
+{
+  "users": [
+    {
+      "user_id": 1,
+      "email": "alice@example.com",
+      "password_hash": "hashedpassword123",
+      "name": "Alice Johnson",
+      "created_at": "2024-06-01T10:00:00Z"
+    },
+    {
+      "user_id": 2,
+      "email": "bob@example.com",
+      "password_hash": "hashedpassword456",
+      "name": "Bob Smith",
+      "created_at": "2024-06-05T12:00:00Z"
+    }
+  ],
+  "targets": [
+    {
+      "target_id": 101,
+      "user_id": 1,
+      "url": "https://example.com",
+      "check_interval": 15,
+      "enabled": true,
+      "created_at": "2024-06-01T10:05:00Z"
+    },
+    {
+      "target_id": 102,
+      "user_id": 2,
+      "url": "https://anotherdomain.net",
+      "check_interval": 30,
+      "enabled": false,
+      "created_at": "2024-06-06T09:00:00Z"
+    }
+  ],
+  "alerts": [
+    {
+      "alert_id": 201,
+      "user_id": 1,
+      "target_id": 101,
+      "type": "Downtime",
+      "message": "Your website is currently down.",
+      "sent_at": "2024-06-15T08:20:00Z"
+    },
+    {
+      "alert_id": 202,
+      "user_id": 2,
+      "target_id": 102,
+      "type": "SSL Expiring",
+      "message": "Your SSL certificate will expire in 5 days.",
+      "sent_at": "2024-06-20T10:00:00Z"
+    }
+  ],
+  "statuslogs": [
+    {
+      "log_id": 301,
+      "target_id": 101,
+      "status_code": 200,
+      "response_time_ms": 120,
+      "timestamp": "2024-06-25T08:00:00Z"
+    },
+    {
+      "log_id": 302,
+      "target_id": 101,
+      "status_code": 500,
+      "response_time_ms": 300,
+      "timestamp": "2024-06-25T08:15:00Z"
+    },
+    {
+      "log_id": 303,
+      "target_id": 102,
+      "status_code": 404,
+      "response_time_ms": 180,
+      "timestamp": "2024-06-25T09:00:00Z"
+    }
+  ],
+  "domainChecks": [
+    {
+      "domain_id": 401,
+      "target_id": 101,
+      "expiry_date": "2024-07-01T00:00:00Z",
+      "days_remaining": 6,
+      "checked_at": "2024-06-25T07:00:00Z"
+    },
+    {
+      "domain_id": 402,
+      "target_id": 102,
+      "expiry_date": "2024-08-15T00:00:00Z",
+      "days_remaining": 50,
+      "checked_at": "2024-06-25T07:10:00Z"
+    }
+  ],
+  "certificateChecks": [
+    {
+      "cert_id": 501,
+      "target_id": 101,
+      "expiry_date": "2024-07-02T00:00:00Z",
+      "days_remaining": 7,
+      "checked_at": "2024-06-25T07:30:00Z"
+    },
+    {
+      "cert_id": 502,
+      "target_id": 102,
+      "expiry_date": "2024-08-20T00:00:00Z",
+      "days_remaining": 55,
+      "checked_at": "2024-06-25T07:40:00Z"
+    }
+  ]
+}
