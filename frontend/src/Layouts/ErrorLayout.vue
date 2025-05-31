@@ -22,13 +22,15 @@ export default {
 </script>
 
 <template>
-    <main>
+  <main>
     <div class="container">
 
       <section class="section error-404 min-vh-100 d-flex flex-column align-items-center justify-content-center">
         <h1>{{ code }}</h1>
         <h2>{{ message }}.</h2>
-        <a class="btn" href="index.html">Back to home</a>
+        <router-link to="/home">
+          <div class="btn btn-info">Back to home</div>
+        </router-link>
         <img :src="errorImage" class="img-fluid py-5" alt="Page Not Found">
         <div class="credits">
           Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
