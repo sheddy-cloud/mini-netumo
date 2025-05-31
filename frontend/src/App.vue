@@ -17,7 +17,6 @@
   import "./assets/vendors/quill/quill.js"
   import "./assets/vendors/simple-datatables/simple-datatables.js"
   import "./assets/vendors/tinymce/tinymce.min.js"
-  import "./assets/vendors/php-email-form/validate.js"
 
   import "./assets/js/main.js"
 

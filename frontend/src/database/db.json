@@ -19,6 +19,7 @@
     {
       "target_id": 101,
       "user_id": 1,
+      "name": "Example",
       "url": "https://example.com",
       "check_interval": 15,
       "enabled": true,
@@ -27,6 +28,7 @@
     {
       "target_id": 102,
       "user_id": 2,
+      "name": "Another domain",
       "url": "https://anotherdomain.net",
       "check_interval": 30,
       "enabled": false,

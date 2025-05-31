@@ -1,6 +1,37 @@
 <script>
 import logo from "../../assets/img/logo.png"
-// TODO: Add other images
+import net from "../../services/NetworkService"
+import endpoints from "../../constants/endpoints"
+
+//data
+export default {
+    name: "PanelSidebar",
+
+    data(){
+        return {
+            loading: true,
+            error: "",
+            targets: [],
+        }
+    },
+
+    methods: {
+        async fetchTargets() {
+            try{
+                const res = await net.get(endpoints.TARGET);
+                this.targets = res.data
+            }catch (e){
+                this.error = "There was an error while load targets"
+            }finally {
+                this.loading = false
+            }
+        }
+    },
+
+    created(){
+        this.fetchTargets()
+    }
+}
 
 </script>
 
@@ -22,20 +53,10 @@ import logo from "../../assets/img/logo.png"
                         class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="components-alerts.html">
-                            <i class="bi bi-circle"></i><span>example.com</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="components-accordion.html">
-                            <i class="bi bi-circle"></i><span>paper.com</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="components-badges.html">
-                            <i class="bi bi-circle"></i><span>memes.com</span>
-                        </a>
+                    <li v-for="target in targets" :key="target.target_id">
+                        <router-link :to="`/targets/${target.target_id}`">
+                            <i class="bi bi-circle"></i><span>{{ target.name }}</span>
+                        </router-link>
                     </li>
                 </ul>
             </li>
