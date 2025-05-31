@@ -6,19 +6,13 @@ import details from '../pages/targets/details.vue'
 
 const routes = [
   {
-    path: '/',
-    name: 'login',
-    component: login
-  },
-  {
-    path: '/home',
-    name: 'home',
-    component: home
-  },
-  {
+    // The explicit login page path
     path: '/login',
-    name: 'login',
-    component: login
+    name: 'Login', // Unique name for the login route
+    component: Login,
+    meta: {
+      title: 'Login to Netumo' // Page title for the login page
+    }
   },
   {
     path: "/targets/:id",
@@ -29,14 +23,18 @@ const routes = [
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    component: error404
+    component: Error404,
+    meta: {
+      title: 'Page Not Found' // Page title for 404
+    }
   }
-]
+];
 
+// Create the router instance
 const router = createRouter({
-  history: createWebHistory(),
-  routes
-})
+  history: createWebHistory(), // Use HTML5 History API for clean URLs
+  routes, // Your defined routes
+});
 
 router.afterEach((to, from) => {
   document.body.classList.remove('toggle-sidebar')
