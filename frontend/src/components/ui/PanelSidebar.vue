@@ -1,6 +1,7 @@
 <script>
 import net from "../../services/NetworkService"
 import ENDPOINTS from "../../constants/endpoints"
+import errors from '../../constants/errors';
 
 //data
 export default {
@@ -9,7 +10,6 @@ export default {
     data(){
         return {
             loading: true,
-            error: "",
             targets: [],
         }
     },
@@ -20,7 +20,7 @@ export default {
                 const res = await net.get(ENDPOINTS.TARGET);
                 this.targets = res.data
             }catch (e){
-                this.error = "There was an error while load targets"
+                errors.value.push({ type: "danger",message:"There was an error while loading websites on the sidebar"})
             }finally {
                 this.loading = false
             }
