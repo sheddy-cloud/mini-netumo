@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "Cleaning up frontend code base"
+
+npx eslint ./frontend --fix
+npx prettier --write ./frontend
+
+echo "Verify code clean up"
+
+if ! npx eslint ./frontend; then
+    echo "Lint errors remain. Commit aborted."
+    exit 1
+fi
