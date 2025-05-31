@@ -17,7 +17,7 @@ A lightweight clone of Netumo to monitor website uptime, SSL, and domain expiry.
 
 ---
 
-## ⚙️ Tech Stack
+##  Tech Stack
 
 | Layer              | Technology                |
 |-------------------|---------------------------|
