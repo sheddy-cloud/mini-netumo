@@ -40,11 +40,13 @@ export default {
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="index.html">
-                    <i class="bi bi-grid"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li><!-- End Dashboard Nav -->
+                <router-link to="/home">
+                    <div class="nav-link collapsed" href="index.html">
+                        <i class="bi bi-grid"></i>
+                        <span>Dashboard</span>
+                    </div>
+                </router-link>
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
