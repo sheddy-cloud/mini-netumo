@@ -5,19 +5,21 @@
       "email": "alice@example.com",
       "password_hash": "hashedpassword123",
       "name": "Alice Johnson",
-      "created_at": "2024-06-01T10:00:00Z"
+      "created_at": "2024-06-01T10:00:00Z",
+      "id": "ed3a"
     },
     {
       "user_id": 2,
       "email": "bob@example.com",
       "password_hash": "hashedpassword456",
       "name": "Bob Smith",
-      "created_at": "2024-06-05T12:00:00Z"
+      "created_at": "2024-06-05T12:00:00Z",
+      "id": "1b11"
     }
   ],
   "targets": [
     {
-      "id": 101,
+      "id": "101",
       "user_id": 1,
       "name": "Example",
       "url": "https://example.com",
@@ -26,13 +28,18 @@
       "created_at": "2024-06-01T10:05:00Z"
     },
     {
-      "id": 102,
+      "id": "102",
       "user_id": 2,
       "name": "Another domain",
       "url": "https://anotherdomain.net",
       "check_interval": 30,
       "enabled": false,
       "created_at": "2024-06-06T09:00:00Z"
+    },
+    {
+      "id": "a779",
+      "name": "netumo",
+      "url": "https://netumo.com"
     }
   ],
   "alerts": [
@@ -42,7 +49,8 @@
       "target_id": 101,
       "type": "Downtime",
       "message": "Your website is currently down.",
-      "sent_at": "2024-06-15T08:20:00Z"
+      "sent_at": "2024-06-15T08:20:00Z",
+      "id": "c6f0"
     },
     {
       "alert_id": 202,
@@ -50,7 +58,8 @@
       "target_id": 102,
       "type": "SSL Expiring",
       "message": "Your SSL certificate will expire in 5 days.",
-      "sent_at": "2024-06-20T10:00:00Z"
+      "sent_at": "2024-06-20T10:00:00Z",
+      "id": "d41a"
     }
   ],
   "statuslogs": [
@@ -59,21 +68,24 @@
       "target_id": 101,
       "status_code": 200,
       "response_time_ms": 120,
-      "timestamp": "2024-06-25T08:00:00Z"
+      "timestamp": "2024-06-25T08:00:00Z",
+      "id": "719e"
     },
     {
       "log_id": 302,
       "target_id": 101,
       "status_code": 500,
       "response_time_ms": 300,
-      "timestamp": "2024-06-25T08:15:00Z"
+      "timestamp": "2024-06-25T08:15:00Z",
+      "id": "bd2c"
     },
     {
       "log_id": 303,
       "target_id": 102,
       "status_code": 404,
       "response_time_ms": 180,
-      "timestamp": "2024-06-25T09:00:00Z"
+      "timestamp": "2024-06-25T09:00:00Z",
+      "id": "8992"
     }
   ],
   "domainChecks": [
@@ -82,14 +94,16 @@
       "target_id": 101,
       "expiry_date": "2024-07-01T00:00:00Z",
       "days_remaining": 6,
-      "checked_at": "2024-06-25T07:00:00Z"
+      "checked_at": "2024-06-25T07:00:00Z",
+      "id": "2005"
     },
     {
       "domain_id": 402,
       "target_id": 102,
       "expiry_date": "2024-08-15T00:00:00Z",
       "days_remaining": 50,
-      "checked_at": "2024-06-25T07:10:00Z"
+      "checked_at": "2024-06-25T07:10:00Z",
+      "id": "2143"
     }
   ],
   "certificateChecks": [
@@ -98,14 +112,16 @@
       "target_id": 101,
       "expiry_date": "2024-07-02T00:00:00Z",
       "days_remaining": 7,
-      "checked_at": "2024-06-25T07:30:00Z"
+      "checked_at": "2024-06-25T07:30:00Z",
+      "id": "0560"
     },
     {
       "cert_id": 502,
       "target_id": 102,
       "expiry_date": "2024-08-20T00:00:00Z",
       "days_remaining": 55,
-      "checked_at": "2024-06-25T07:40:00Z"
+      "checked_at": "2024-06-25T07:40:00Z",
+      "id": "2fec"
     }
   ]
 }

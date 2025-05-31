@@ -1,47 +1,47 @@
 <script>
 import BlankFormLayout from '../../Layouts/BlankFormLayout.vue';
-import { loginUser } from '../../services/monitorService'; // Assuming loginUser is in monitorService.js
+import net from '../../services/NetworkService'; // Assuming NetworkService is your 'net'
+import errors from '../../constants/errors'; // Assuming errors is your global error handler
+import ENDPOINTS from '../../constants/endpoints'; // Assuming you have an ENDPOINTS constant for login
 
 export default {
     name: "LoginForm",
     components: {
-        BlankFormLayout
+        BlankFormLayout,
     },
-    // Define the events this component can emit
-    emits: ['login-success', 'error'],
     data() {
         return {
             username: '', // Can be used for email or a username
             password: '',
-            formErrorMessage: '',
-            formSuccessMessage: '', // Usually not displayed for login, but good for debugging
+            loading: false, // Add loading state
         };
     },
     methods: {
         async handleLogin() {
-            this.formErrorMessage = ''; // Clear previous errors
-            this.formSuccessMessage = '';
+            this.loading = true; // Set loading to true on submission
+            errors.value = []; // Clear previous errors using the global errors object
 
             if (!this.username.trim() || !this.password.trim()) {
-                this.formErrorMessage = 'Please enter both username/email and password.';
+                errors.value.push({ type: "danger", message: "Please enter both username/email and password." });
+                this.loading = false;
                 return;
             }
 
             try {
-                // Call the loginUser function from your service
-                const user = await loginUser(this.username, this.password);
-                this.formSuccessMessage = 'Login successful!';
+                // Call the login endpoint using net.post
+                const user = await net.get(ENDPOINTS.LOGIN, { // Assuming ENDPOINTS.LOGIN is defined
+                    username: this.username,
+                    password: this.password,
+                });
+
+                errors.value.push({ type: "success", message: 'Login successful!' });
                 // Clear inputs on success
                 this.username = '';
                 this.password = '';
-                // Emit a success event to the parent, potentially with user data
-                this.$emit('login-success', user);
             } catch (err) {
-                console.error("Error during login:", err);
-                const backendMessage = err.response?.data?.message || err.message;
-                this.formErrorMessage = `Login failed: ${backendMessage}.`;
-                // Emit an error event to the parent
-                this.$emit('error', this.formErrorMessage);
+                errors.value.push({ type: "danger", message: `Login failed: ${backendMessage}.` });
+            } finally {
+                this.loading = false; // Set loading to false after submission
             }
         },
     },
@@ -50,124 +50,42 @@ export default {
 
 <template>
     <BlankFormLayout>
-        <div class="login-container">
-            <h2>Login to Mini-Netumo</h2>
+        <div class="card login-form-component">
+            <div class="card-header">
+                <h4>Login to Mini-Netumo</h4>
+            </div>
+            <div v-if="loading" class="card-body">...</div>
+            <div class="card-body">
+                <form @submit.prevent="handleLogin">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username or Email</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="username"
+                            v-model="username"
+                            placeholder="Enter your username or email"
+                            required
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            v-model="password"
+                            placeholder="Enter your password"
+                            required
+                        />
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
 
-            <div v-if="formSuccessMessage" class="alert alert-success">{{ formSuccessMessage }}</div>
-            <div v-if="formErrorMessage" class="alert alert-danger">{{ formErrorMessage }}</div>
-
-            <form @submit.prevent="handleLogin">
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username or Email</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="username"
-                        v-model="username"
-                        placeholder="Enter your username or email"
-                        required
-                    />
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input
-                        type="password"
-                        class="form-control"
-                        id="password"
-                        v-model="password"
-                        placeholder="Enter your password"
-                        required
-                    />
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Login</button>
-            </form>
-
-            <p class="mt-3 text-center">
-                Don't have an account? <router-link to="/register">Register here</router-link>
-            </p>
+                <p class="mt-3 text-center">
+                    Don't have an account? <router-link to="/register">Register here</router-link>
+                </p>
+            </div>
         </div>
     </BlankFormLayout>
 </template>
-
-<style scoped>
-.login-container {
-    max-width: 400px;
-    margin: auto; /* Center content within BlankFormLayout */
-    padding: 2.5rem;
-    border: 1px solid #e0e0e0;
-    border-radius: 0.5rem;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    background-color: #fff; /* White background for the form card */
-}
-
-h2 {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: #333;
-    font-size: 1.8rem;
-}
-
-.alert {
-    padding: 0.75rem 1.25rem;
-    margin-bottom: 1rem;
-    border-radius: 0.25rem;
-    font-size: 0.9rem;
-}
-.alert-success {
-    color: #0f5132;
-    background-color: #d1e7dd;
-    border-color: #badbcc;
-}
-.alert-danger {
-    color: #842029;
-    background-color: #f8d7da;
-    border-color: #f5c2c7;
-}
-
-.form-label {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    display: block;
-}
-
-.form-control {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-.form-control:focus {
-    color: #495057;
-    background-color: #fff;
-    border-color: #80bdff;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: white;
-    padding: 0.75rem 1.25rem;
-    font-size: 1.1rem;
-    border-radius: 0.3rem;
-    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
-}
-.btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-}
-
-.mt-3 {
-    margin-top: 1rem !important;
-}
-.text-center {
-    text-align: center !important;
-}
-</style>

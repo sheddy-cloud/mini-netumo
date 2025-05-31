@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import login from "../pages/login.vue"
 import home from "../pages/home.vue"
 import error404 from "../pages/error404.vue"
+import register from "../pages/register.vue"
 import details from '../pages/targets/details.vue'
 
 const routes = [
@@ -9,7 +10,7 @@ const routes = [
     // The explicit login page path
     path: '/login',
     name: 'Login', // Unique name for the login route
-    component: Login,
+    component: login,
     meta: {
       title: 'Login to Netumo' // Page title for the login page
     }
@@ -18,7 +19,7 @@ const routes = [
     // Added: The registration page path
     path: '/register',
     name: 'Register', // Unique name for the register route
-    component: RegisterPage, // Link to your RegisterPage component
+    component: register, // Link to your RegisterPage component
     meta: {
       title: 'Register for Netumo' // Page title for the registration page
     }
@@ -27,7 +28,7 @@ const routes = [
     // This is the root path, currently set to your Dashboard
     path: '/',
     name: 'Dashboard', // Name for the dashboard route
-    component: Home,
+    component: home,
     meta: {
       title: 'Netumo Dashboard', // Page title for the dashboard
       // You might add meta: { requiresAuth: true } here later for authentication
@@ -42,7 +43,7 @@ const routes = [
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    component: Error404,
+    component: error404,
     meta: {
       title: 'Page Not Found' // Page title for 404
     }
