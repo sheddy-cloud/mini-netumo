@@ -2,20 +2,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 // Import your page components
-import Login from "../pages/login.vue"; // Renamed import to 'Login' for clarity
-import Home from "../pages/home.vue";   // Renamed import to 'Home' for clarity
+import Home from "../pages/home.vue";
+import Login from "../pages/login.vue";
+import RegisterPage from "../pages/register.vue"; // Added: Import the RegisterPage component
 import Error404 from "../pages/error404.vue";
 
 const routes = [
-  {
-    // This is now the root path, making your Dashboard the first page
-    path: '/',
-    name: 'Dashboard', // Changed name to 'Dashboard' for clarity
-    component: Home,
-    meta: {
-      title: 'Netumo Dashboard' // Page title for the dashboard
-    }
-  },
   {
     // The explicit login page path
     path: '/login',
@@ -26,9 +18,27 @@ const routes = [
     }
   },
   {
+    // Added: The registration page path
+    path: '/register',
+    name: 'Register', // Unique name for the register route
+    component: RegisterPage, // Link to your RegisterPage component
+    meta: {
+      title: 'Register for Netumo' // Page title for the registration page
+    }
+  },
+  {
+    // This is the root path, currently set to your Dashboard
+    path: '/',
+    name: 'Dashboard', // Name for the dashboard route
+    component: Home,
+    meta: {
+      title: 'Netumo Dashboard', // Page title for the dashboard
+      // You might add meta: { requiresAuth: true } here later for authentication
+    }
+  },
+  {
     // Catch-all route for 404 errors
-    // This regex matches any path and captures it, making it a wildcard route.
-    // It should ALWAYS be the last route in your configuration.
+    // This should ALWAYS be the last route in your configuration.
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: Error404,
@@ -36,13 +46,6 @@ const routes = [
       title: 'Page Not Found' // Page title for 404
     }
   }
-  // Add other routes here as your application grows, e.g.,
-  // {
-  //   path: '/settings',
-  //   name: 'Settings',
-  //   component: () => import('../pages/Settings.vue'), // Example of lazy loading
-  //   meta: { requiresAuth: true, title: 'Settings' } // Example meta for auth
-  // }
 ];
 
 // Create the router instance

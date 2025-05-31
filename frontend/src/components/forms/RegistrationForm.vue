@@ -1,45 +1,67 @@
 <script>
+// Adjust path to BlankFormLayout based on its actual location relative to components/forms
 import BlankFormLayout from '../../Layouts/BlankFormLayout.vue';
-import { loginUser } from '../../services/monitorService'; // Assuming loginUser is in monitorService.js
+import { registerUser } from '../../services/monitorService'; // Assuming registerUser is in monitorService.js
 
 export default {
-    name: "LoginForm",
+    name: "RegistrationForm",
     components: {
         BlankFormLayout
     },
     // Define the events this component can emit
-    emits: ['login-success', 'error'],
+    emits: ['registration-success', 'error'],
     data() {
         return {
-            username: '', // Can be used for email or a username
+            name: '',
+            email: '',
             password: '',
             formErrorMessage: '',
-            formSuccessMessage: '', // Usually not displayed for login, but good for debugging
+            formSuccessMessage: '',
         };
     },
     methods: {
-        async handleLogin() {
+        async handleRegistration() {
             this.formErrorMessage = ''; // Clear previous errors
             this.formSuccessMessage = '';
 
-            if (!this.username.trim() || !this.password.trim()) {
-                this.formErrorMessage = 'Please enter both username/email and password.';
+            // Basic validation
+            if (!this.name.trim() || !this.email.trim() || !this.password.trim()) {
+                this.formErrorMessage = 'All fields are required.';
+                return;
+            }
+
+            // Simple email validation (can be more robust)
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(this.email)) {
+                this.formErrorMessage = 'Please enter a valid email address.';
+                return;
+            }
+
+            // Password strength validation (example: min 6 characters)
+            if (this.password.length < 6) {
+                this.formErrorMessage = 'Password must be at least 6 characters long.';
                 return;
             }
 
             try {
-                // Call the loginUser function from your service
-                const user = await loginUser(this.username, this.password);
-                this.formSuccessMessage = 'Login successful!';
+                // Call the registerUser function from your service
+                const newUser = await registerUser({
+                    name: this.name,
+                    email: this.email,
+                    password: this.password,
+                });
+
+                this.formSuccessMessage = 'Registration successful! You can now log in.';
                 // Clear inputs on success
-                this.username = '';
+                this.name = '';
+                this.email = '';
                 this.password = '';
-                // Emit a success event to the parent, potentially with user data
-                this.$emit('login-success', user);
+                // Emit a success event to the parent
+                this.$emit('registration-success', newUser);
             } catch (err) {
-                console.error("Error during login:", err);
+                console.error("Error during registration:", err);
                 const backendMessage = err.response?.data?.message || err.message;
-                this.formErrorMessage = `Login failed: ${backendMessage}.`;
+                this.formErrorMessage = `Registration failed: ${backendMessage}.`;
                 // Emit an error event to the parent
                 this.$emit('error', this.formErrorMessage);
             }
@@ -50,21 +72,32 @@ export default {
 
 <template>
     <BlankFormLayout>
-        <div class="login-container">
-            <h2>Login to Mini-Netumo</h2>
+        <div class="registration-container">
+            <h2>Register for Mini-Netumo</h2>
 
             <div v-if="formSuccessMessage" class="alert alert-success">{{ formSuccessMessage }}</div>
             <div v-if="formErrorMessage" class="alert alert-danger">{{ formErrorMessage }}</div>
 
-            <form @submit.prevent="handleLogin">
+            <form @submit.prevent="handleRegistration">
                 <div class="mb-3">
-                    <label for="username" class="form-label">Username or Email</label>
+                    <label for="name" class="form-label">Full Name</label>
                     <input
                         type="text"
                         class="form-control"
-                        id="username"
-                        v-model="username"
-                        placeholder="Enter your username or email"
+                        id="name"
+                        v-model="name"
+                        placeholder="Enter your full name"
+                        required
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        v-model="email"
+                        placeholder="Enter your email"
                         required
                     />
                 </div>
@@ -75,29 +108,29 @@ export default {
                         class="form-control"
                         id="password"
                         v-model="password"
-                        placeholder="Enter your password"
+                        placeholder="Create a password"
                         required
                     />
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Login</button>
+                <button type="submit" class="btn btn-primary w-100">Register</button>
             </form>
 
             <p class="mt-3 text-center">
-                Don't have an account? <router-link to="/register">Register here</router-link>
+                Already have an account? <router-link to="/login">Login here</router-link>
             </p>
         </div>
     </BlankFormLayout>
 </template>
 
 <style scoped>
-.login-container {
-    max-width: 400px;
+.registration-container {
+    max-width: 450px; /* Slightly wider for more fields */
     margin: auto; /* Center content within BlankFormLayout */
     padding: 2.5rem;
     border: 1px solid #e0e0e0;
     border-radius: 0.5rem;
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    background-color: #fff; /* White background for the form card */
+    background-color: #fff;
 }
 
 h2 {

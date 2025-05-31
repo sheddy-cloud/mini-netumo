@@ -1,98 +1,75 @@
-<script setup>
-import { ref, onMounted } from 'vue';
+<script>
 import PanelLayout from '../Layouts/PanelLayout.vue';
-import { getTargets, createTarget } from '../services/monitorService'; // Import createTarget
+import AddTargetForm from '../components/forms/AddTargetForm.vue'; // Import the AddTargetForm component
+import { getTargets } from '../services/monitorService'; // Only need getTargets here
 
-const nodeId = import.meta.env.VITE_NODE_ID;
-const targets = ref([]);
-const newTargetUrl = ref(''); // State for the new target URL form input
-const isLoading = ref(true); // Loading state for fetching targets
-const errorMessage = ref(''); // Error message for fetching/adding targets
-const successMessage = ref(''); // Success message after adding target
-
-// Function to fetch targets
-const fetchTargets = async () => {
-    isLoading.value = true;
-    errorMessage.value = ''; // Clear previous errors
-    try {
-        targets.value = await getTargets();
-        if (targets.value.length === 0) {
-            errorMessage.value = 'No monitoring targets configured. Add one below!';
-        }
-    } catch (err) {
-        console.error("Error loading targets:", err);
-        errorMessage.value = 'Failed to load targets. Please ensure the backend is running and accessible.';
-        targets.value = []; // Clear targets on error
-    } finally {
-        isLoading.value = false;
-    }
+export default {
+    name: "HomePage",
+    components: {
+        PanelLayout,
+        AddTargetForm // Register the AddTargetForm component
+    },
+    data() {
+        return {
+            // nodeId: import.meta.env.VITE_NODE_ID, // Removed as requested
+            targets: [],
+            isLoading: true, // Loading state for fetching targets
+            homePageErrorMessage: '', // Use a distinct name for Home page errors
+            homePageSuccessMessage: '', // Use a distinct name for Home page success
+        };
+    },
+    mounted() {
+        this.fetchTargets(); // Initial fetch on component mount
+    },
+    methods: {
+        // Function to fetch targets
+        async fetchTargets() {
+            this.isLoading = true;
+            this.homePageErrorMessage = ''; // Clear previous errors
+            this.homePageSuccessMessage = ''; // Clear previous success messages
+            try {
+                this.targets = await getTargets();
+                if (this.targets.length === 0) {
+                    this.homePageErrorMessage = 'No monitoring targets configured.';
+                }
+            } catch (err) {
+                console.error("Error loading targets:", err);
+                this.homePageErrorMessage = 'Failed to load targets. Please ensure the backend is running and accessible.';
+                this.targets = []; // Clear targets on error
+            } finally {
+                this.isLoading = false;
+            }
+        },
+        // Handler for when a target is successfully added via the form component
+        handleTargetAdded(newTarget) {
+            // Re-fetch targets to ensure data consistency and potentially get more details if needed
+            this.fetchTargets();
+            this.homePageSuccessMessage = `Target "${newTarget.name}" added successfully!`; // Updated message to use target.name
+            // Optionally clear success message after a few seconds
+            setTimeout(() => { this.homePageSuccessMessage = ''; }, 5000);
+        },
+        // Handler for errors from the form component
+        handleFormError(errorMsg) {
+            this.homePageErrorMessage = errorMsg;
+            // Optionally clear error message after a few seconds
+            setTimeout(() => { this.homePageErrorMessage = ''; }, 5000);
+        },
+    },
 };
-
-// Function to add a new target
-const addTarget = async () => {
-    if (!newTargetUrl.value.trim()) {
-        errorMessage.value = 'Target URL cannot be empty.';
-        return;
-    }
-    // Basic URL validation
-    const urlRegex = /^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/[a-zA-Z0-9]+\.[^\s]{2,}|[a-zA-Z0-9]+\.[^\s]{2,})$/i;
-    if (!urlRegex.test(newTargetUrl.value)) {
-        errorMessage.value = 'Please enter a valid URL (e.g., https://example.com).';
-        return;
-    }
-
-    errorMessage.value = ''; // Clear previous errors
-    successMessage.value = ''; // Clear previous success messages
-
-    try {
-        // Assuming createTarget returns the new target object
-        const createdTarget = await createTarget({ url: newTargetUrl.value });
-        targets.value.push(createdTarget); // Add new target to the list
-        newTargetUrl.value = ''; // Clear the form input
-        successMessage.value = `Target "${createdTarget.url}" added successfully!`;
-        // Re-fetch targets to ensure data consistency and potentially get more details if needed
-        await fetchTargets();
-    } catch (err) {
-        console.error("Error adding target:", err);
-        errorMessage.value = `Failed to add target: ${err.response?.data?.message || err.message}.`;
-    }
-};
-
-onMounted(() => {
-    fetchTargets(); // Initial fetch on component mount
-});
 </script>
 
 <template>
     <PanelLayout title="Home" :breadcrumb="['Home', 'Dashboard']">
         <div class="dashboard-container">
-            <h1>MIN-NETUMO MONITORING PLATFORM</h1>
-            <p>Frontend Node ID: <strong>{{ nodeId }}</strong></p>
+            <h1>Netumo Lite Dashboard</h1>
+            <div v-if="homePageSuccessMessage" class="alert alert-success">{{ homePageSuccessMessage }}</div>
+            <div v-if="homePageErrorMessage" class="alert alert-danger">{{ homePageErrorMessage }}</div>
 
-            <div v-if="successMessage" class="alert alert-success">{{ successMessage }}</div>
-            <div v-if="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-
-            <div class="card add-target-card mb-4">
-                <div class="card-header">
-                    <h4>Add New Monitoring Target</h4>
-                </div>
-                <div class="card-body">
-                    <form @submit.prevent="addTarget">
-                        <div class="mb-3">
-                            <label for="targetUrl" class="form-label">Website URL</label>
-                            <input
-                                type="url"
-                                class="form-control"
-                                id="targetUrl"
-                                v-model="newTargetUrl"
-                                placeholder="e.g., https://www.google.com"
-                                required
-                            />
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add Target</button>
-                    </form>
-                </div>
-            </div>
+            <AddTargetForm
+                @target-added="handleTargetAdded"
+                @error="handleFormError"
+                class="mb-4"
+            />
 
             <div v-if="isLoading" class="text-center my-5">
                 <div class="spinner-border text-primary" role="status">
@@ -107,8 +84,7 @@ onMounted(() => {
                     class="target-card card"
                 >
                     <div class="card-body">
-                        <h5 class="card-title">{{ target.url }}</h5>
-                        <p class="card-text">Status:
+                        <h5 class="card-title">{{ target.name }}</h5> <p class="card-text text-muted">{{ target.url }}</p> <p class="card-text">Status:
                             <span :class="{'text-success': target.status === 'UP', 'text-danger': target.status === 'DOWN'}">
                                 <strong>{{ target.status }}</strong>
                             </span>
@@ -119,8 +95,8 @@ onMounted(() => {
                         </div>
                 </div>
             </div>
-            <div v-else-if="!isLoading && !errorMessage">
-                <p class="text-muted">No targets found. Add a new target using the form above.</p>
+            <div v-else-if="!isLoading && !homePageErrorMessage && targets.length === 0">
+                 <p class="text-muted">No targets found. Use the form above to add your first monitoring target.</p>
             </div>
         </div>
     </PanelLayout>
@@ -137,10 +113,6 @@ onMounted(() => {
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
-.add-target-card {
-    margin-bottom: 2rem;
-}
-
 .targets-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -153,8 +125,12 @@ onMounted(() => {
 
 .target-card .card-title {
     font-size: 1.25rem;
-    margin-bottom: 0.75rem;
-    word-break: break-all; /* Ensures long URLs wrap */
+    margin-bottom: 0.25rem; /* Reduced margin for name */
+    word-break: break-all; /* Ensures long names/URLs wrap */
+}
+.target-card .card-text.text-muted {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem; /* Space after URL */
 }
 
 .target-card .card-text {

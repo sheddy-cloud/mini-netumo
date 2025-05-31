@@ -160,15 +160,31 @@ export const getAlerts = async () => {
 // --- Authentication Service (Example - you might put this in a separate authService.js) ---
 
 /**
+ * Handles user registration.
+ * Corresponds to POST /auth/register.
+ * @param {Object} userData - The user registration data ({ name, email, password }).
+ * @returns {Promise<Object>} A promise that resolves to the registered user data.
+ */
+export const registerUser = async (userData) => { // ADDED THIS FUNCTION
+  try {
+    const res = await axios.post(`${API_BASE}/auth/register`, userData);
+    return res.data;
+  } catch (error) {
+    console.error('Registration failed:', error);
+    throw error;
+  }
+};
+
+/**
  * Example login function. In a real app, this would send credentials to your backend
  * and receive a JWT token.
- * @param {string} username
+ * @param {string} email
  * @param {string} password
  * @returns {Promise<Object>} A promise that resolves to user data and token.
  */
-export const loginUser = async (username, password) => {
+export const loginUser = async (email, password) => {
   try {
-    const res = await axios.post(`${API_BASE}/auth/login`, { username, password });
+    const res = await axios.post(`${API_BASE}/auth/login`, { email, password });
     const { token, user } = res.data;
     // Store the token (e.g., in localStorage) for subsequent authenticated requests
     localStorage.setItem('your_jwt_token_key', token);
