@@ -5,6 +5,7 @@ from api.database import Base
 
 # ----------------------------- SQLAlchemy Models -----------------------------
 
+
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
@@ -16,6 +17,7 @@ class User(Base):
     alerts = relationship("Alert", back_populates="user")
     targets = relationship("Target", back_populates="user")
 
+
 class Alert(Base):
     __tablename__ = "alerts"
     alert_id = Column(Integer, primary_key=True)
@@ -24,6 +26,7 @@ class Alert(Base):
     type = Column(String)
     message = Column(Text)
     user = relationship("User", back_populates="alerts")
+
 
 class Target(Base):
     __tablename__ = "targets"
@@ -38,6 +41,7 @@ class Target(Base):
     domain_checks = relationship("DomainCheck", back_populates="target")
     certificate_checks = relationship("CertificateCheck", back_populates="target")
 
+
 class StatusLog(Base):
     __tablename__ = "statuslogs"
     log_id = Column(Integer, primary_key=True)
@@ -47,6 +51,7 @@ class StatusLog(Base):
     timestamp = Column(DateTime)
     target = relationship("Target", back_populates="status_logs")
 
+
 class DomainCheck(Base):
     __tablename__ = "domainchecks"
     domain_id = Column(Integer, primary_key=True)
@@ -55,6 +60,7 @@ class DomainCheck(Base):
     checked_at = Column(DateTime)
     days_remaining = Column(Integer)
     target = relationship("Target", back_populates="domain_checks")
+
 
 class CertificateCheck(Base):
     __tablename__ = "certificatechecks"

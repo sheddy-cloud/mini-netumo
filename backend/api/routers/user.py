@@ -8,10 +8,8 @@ from ..models.models import User
 from ..schemas import user
 from ..utils.security import hash_password
 
-router = APIRouter(
-    prefix="/users",
-    tags=["Users"]
-)
+router = APIRouter(prefix="/users", tags=["Users"])
+
 
 # Create a new user
 @router.post("/", response_model=user.UserResponse)
@@ -26,11 +24,13 @@ def create_user(user_in: user.UserCreate, db: Session = Depends(get_db)):
     db.refresh(new_user)
     return new_user
 
+
 # Read all users
 @router.get("/", response_model=List[user.UserResponse])
 def read_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     users = db.query(User).offset(skip).limit(limit).all()
     return users
+
 
 # View single user
 @router.get("/{user_id}", response_model=user.UserResponse)
@@ -39,6 +39,7 @@ def get_user(user_id: int, db: Session = Depends(get_db)):
     if user_obj is None:
         raise HTTPException(status_code=404, detail="User not found")
     return user_obj
+
 
 # Update user
 @router.put("/{user_id}", response_model=user.UserResponse)

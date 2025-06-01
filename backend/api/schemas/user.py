@@ -4,10 +4,12 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 
+
 class UserCreate(BaseModel):
     name: str
     email: str
     password: str
+
 
 class UserResponse(BaseModel):
     id: int
@@ -17,6 +19,7 @@ class UserResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
 
 class UserUpdate(BaseModel):
     name: Optional[str] = None

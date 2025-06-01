@@ -11,6 +11,7 @@ from ..schemas.status_log import StatusLogCreate, StatusLogResponse, StatusLogUp
 
 router = APIRouter(prefix="/statuslogs", tags=["Status Logs"])
 
+
 # Create status log (by machine)
 @router.post("/", response_model=StatusLogResponse)
 def create_status_log(log: StatusLogCreate, db: Session = Depends(get_db)):
@@ -18,17 +19,19 @@ def create_status_log(log: StatusLogCreate, db: Session = Depends(get_db)):
         target_id=log.target_id,
         status_code=log.status_code,
         response_time_ms=log.response_time_ms,
-        timestamp=datetime.now(timezone.utc)
+        timestamp=datetime.now(timezone.utc),
     )
     db.add(db_log)
     db.commit()
     db.refresh(db_log)
     return db_log
 
+
 # Get all logs
 @router.get("/", response_model=List[StatusLogResponse])
 def get_status_logs(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     return db.query(StatusLog).offset(skip).limit(limit).all()
+
 
 # Get single log
 @router.get("/{log_id}", response_model=StatusLogResponse)
@@ -37,6 +40,7 @@ def get_status_log(log_id: int, db: Session = Depends(get_db)):
     if not db_log:
         raise HTTPException(status_code=404, detail="Status log not found")
     return db_log
+
 
 # Update log (optional for admin)
 @router.put("/{log_id}", response_model=StatusLogResponse)
