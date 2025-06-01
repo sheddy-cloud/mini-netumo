@@ -1,21 +1,41 @@
 <script>
 import PanelLayout from '../Layouts/PanelLayout.vue';
 import AddTargetForm from '../components/forms/AddTargetForm.vue';
+import Card from '../components/ui/Card.vue';
+import GeneralLatecyChart from '../components/ui/GeneralLatecyChart.vue';
+import TargetsTable from '../components/ui/TargetsTable.vue';
 
 export default {
     name: "HomePage",
     components: {
         PanelLayout,
-        AddTargetForm
+        AddTargetForm,
+        GeneralLatecyChart,
+        Card,
+        TargetsTable
     },
 };
 </script>
 
 <template>
     <PanelLayout title="Home" :breadcrumb="['Home', 'Dashboard']">
-            <AddTargetForm
-                class="mb-4"
-            />
+        <div class="row g-3 mb-4">
+            <div>
+                <Card title="Latecy Report">
+                    <GeneralLatecyChart />
+                </Card>
+            </div>
+            <div class="col-md-7">
+                <Card title="Websites">
+                    <TargetsTable />
+                </Card>
+            </div>
+            <div class="col-md-5">
+                <Card title="Add New Monitoring Target">
+                    <AddTargetForm/>
+                </Card>
+            </div>
+        </div>
     </PanelLayout>
 </template>
 
@@ -45,9 +65,11 @@ export default {
     margin-bottom: 0.25rem;
     word-break: break-all;
 }
+
 .target-card .card-text.text-muted {
     font-size: 0.9rem;
-    margin-bottom: 0.75rem; /* Space after URL */
+    margin-bottom: 0.75rem;
+    /* Space after URL */
 }
 
 .target-card .card-text {
@@ -59,11 +81,13 @@ export default {
     margin-bottom: 1rem;
     border-radius: 0.25rem;
 }
+
 .alert-success {
     color: #0f5132;
     background-color: #d1e7dd;
     border-color: #badbcc;
 }
+
 .alert-danger {
     color: #842029;
     background-color: #f8d7da;

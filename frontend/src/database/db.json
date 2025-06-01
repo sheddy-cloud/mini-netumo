@@ -19,57 +19,19 @@
   ],
   "targets": [
     {
-      "id": "101",
-      "user_id": 1,
       "name": "Example",
       "url": "https://example.com",
-      "check_interval": 15,
-      "enabled": true,
-      "created_at": "2024-06-01T10:05:00Z"
+      "id": "101"
     },
     {
-      "id": "102",
-      "user_id": 2,
       "name": "Another domain",
-      "url": "https://anotherdomain.net",
-      "check_interval": 30,
-      "enabled": false,
-      "created_at": "2024-06-06T09:00:00Z"
+      "url": "https://anotherdomain.io",
+      "id": "102"
     },
     {
-      "id": "a779",
+      "id": "1844",
       "name": "netumo",
-      "url": "https://netumo.com"
-    },
-    {
-      "id": "85bc",
-      "name": "Jehoshaphat",
-      "url": "https://jehoshaphat.com"
-    },
-    {
-      "id": "63ce",
-      "name": "yasg",
-      "url": "https://yasg.com"
-    },
-    {
-      "id": "55a0",
-      "name": "webiste 1",
-      "url": "http://web1.com"
-    },
-    {
-      "id": "c0d7",
-      "name": "website 2",
-      "url": "https://web2.com"
-    },
-    {
-      "id": "42a1",
-      "name": "marvel",
-      "url": "http://marvel.com"
-    },
-    {
-      "id": "9c13",
-      "name": "evm",
-      "url": "http://evm.com"
+      "url": "http://netumo.com"
     }
   ],
   "alerts": [

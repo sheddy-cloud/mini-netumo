@@ -31,11 +31,11 @@ export default {
 
     created() {
         this.fetchTargets()
-        EventBus.on('refresh-sidebar', this.fetchTargets);
+        EventBus.on('refresh-targets', this.fetchTargets);
     },
 
     beforeDestroy() {
-        EventBus.off('refresh-sidebar', this.fetchTargets);
+        EventBus.off('refresh-targets', this.fetchTargets);
     },
 }
 
