@@ -10,7 +10,9 @@ jobs:
   deploy:
     name: Push to EC2
     runs-on: ubuntu-22.04
-    if: github.event.head_commit.message != 'skip ci'
+    environment:
+      name: production         
+      url: http://13.61.18.141/ 
 
     steps:
       - name: Checkout the code
