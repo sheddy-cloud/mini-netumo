@@ -4,18 +4,3 @@ sqlalchemy==2.0.20
 pydantic==1.10.11
 python-multipart==0.0.6
 passlib[bcrypt]==1.7.4
-
-
-Explanation:
-fastapi: The web framework.
-
-uvicorn[standard]: ASGI server to run FastAPI apps.
-
-sqlalchemy: ORM for database interaction.
-
-pydantic: Data validation and serialization.
-
-python-multipart: For handling form data (optional but often needed).
-
-passlib[bcrypt]: Password hashing utilities.
-
