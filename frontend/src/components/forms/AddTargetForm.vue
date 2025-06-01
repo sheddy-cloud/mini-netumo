@@ -4,17 +4,18 @@ import BlankFormLayout from '../../Layouts/BlankFormLayout.vue';
 import net from '../../services/NetworkService';
 import errors from '../../constants/errors';
 import ENDPOINTS from '../../constants/endpoints';
+import { EventBus } from '../../constants/eventBus';
 
 export default {
     name: "AddTargetForm",
     components: {
-        BlankFormLayout, 
+        BlankFormLayout,
     },
     emits: ['target-added', 'error'],
     data() {
         return {
-            targetName: '',    
-            newTargetUrl: '',  
+            targetName: '',
+            newTargetUrl: '',
             loading: false,
         };
     },
@@ -45,9 +46,10 @@ export default {
                     url: this.newTargetUrl
                 });
 
-                this.targetName = '';    
+                this.targetName = '';
                 this.newTargetUrl = '';
-                errors.value.push({type: "success", message: `Target "${createdTarget.name}" added successfully!`})
+                errors.value.push({type: "success", message: `Target "${createdTarget.data.name}" added successfully!`})
+                EventBus.emit('refresh-sidebar')
             } catch (err) {
                 errors.value.push({type: "danger", message: `An error occured while submitting the form`})
             }finally{
@@ -93,4 +95,3 @@ export default {
         </div>
     </div>
 </template>
-

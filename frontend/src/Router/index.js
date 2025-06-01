@@ -7,31 +7,28 @@ import details from '../pages/targets/details.vue'
 
 const routes = [
   {
-    // The explicit login page path
     path: '/login',
-    name: 'Login', // Unique name for the login route
+    name: 'Login',
     component: login,
     meta: {
-      title: 'Login to Netumo' // Page title for the login page
-    }
+      title: 'Login to Netumo'
+    },
   },
   {
-    // Added: The registration page path
     path: '/register',
-    name: 'Register', // Unique name for the register route
-    component: register, // Link to your RegisterPage component
+    name: 'Register',
+    component: register,
     meta: {
-      title: 'Register for Netumo' // Page title for the registration page
+      title: 'Register for Netumo'
     }
   },
   {
-    // This is the root path, currently set to your Dashboard
+
     path: '/',
-    name: 'Dashboard', // Name for the dashboard route
+    name: 'Dashboard',
     component: home,
     meta: {
-      title: 'Netumo Dashboard', // Page title for the dashboard
-      // You might add meta: { requiresAuth: true } here later for authentication
+      title: 'Netumo Dashboard',
     }
   },
   {
@@ -45,12 +42,11 @@ const routes = [
     name: 'NotFound',
     component: error404,
     meta: {
-      title: 'Page Not Found' // Page title for 404
+      title: 'Page Not Found'
     }
   }
 ];
 
-// Create the router instance
 const router = createRouter({
   history: createWebHistory(), // Use HTML5 History API for clean URLs
   routes, // Your defined routes
