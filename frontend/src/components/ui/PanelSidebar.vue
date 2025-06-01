@@ -2,45 +2,52 @@
 import net from "../../services/NetworkService"
 import ENDPOINTS from "../../constants/endpoints"
 import errors from '../../constants/errors';
+import { EventBus } from "../../constants/eventBus";
 
 //data
 export default {
     name: "PanelSidebar",
 
-    data(){
+    data() {
         return {
             loading: true,
             targets: [],
         }
     },
 
+
     methods: {
         async fetchTargets() {
-            try{
+            try {
                 const res = await net.get(ENDPOINTS.TARGET);
                 this.targets = res.data
-            }catch (e){
-                errors.value.push({ type: "danger",message:"There was an error while loading websites on the sidebar"})
-            }finally {
+            } catch (e) {
+                errors.value.push({ type: "danger", message: "There was an error while loading websites on the sidebar" })
+            } finally {
                 this.loading = false
             }
         }
     },
 
-    created(){
+    created() {
         this.fetchTargets()
-    }
+        EventBus.on('refresh-sidebar', this.fetchTargets);
+    },
+
+    beforeDestroy() {
+        EventBus.off('refresh-sidebar', this.fetchTargets);
+    },
 }
 
 </script>
 
 <template>
-        <aside id="sidebar" class="sidebar">
+    <aside id="sidebar" class="sidebar">
 
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <router-link to="/home">
+                <router-link to="/">
                     <div class="nav-link collapsed" href="index.html">
                         <i class="bi bi-grid"></i>
                         <span>Dashboard</span>

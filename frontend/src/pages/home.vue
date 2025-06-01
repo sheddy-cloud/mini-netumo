@@ -1,12 +1,12 @@
 <script>
 import PanelLayout from '../Layouts/PanelLayout.vue';
-import AddTargetForm from '../components/forms/AddTargetForm.vue'; // Import the AddTargetForm component
+import AddTargetForm from '../components/forms/AddTargetForm.vue';
 
 export default {
     name: "HomePage",
     components: {
         PanelLayout,
-        AddTargetForm // Register the AddTargetForm component
+        AddTargetForm
     },
 };
 </script>
@@ -14,8 +14,6 @@ export default {
 <template>
     <PanelLayout title="Home" :breadcrumb="['Home', 'Dashboard']">
             <AddTargetForm
-                @target-added="handleTargetAdded"
-                @error="handleFormError"
                 class="mb-4"
             />
     </PanelLayout>
@@ -44,8 +42,8 @@ export default {
 
 .target-card .card-title {
     font-size: 1.25rem;
-    margin-bottom: 0.25rem; /* Reduced margin for name */
-    word-break: break-all; /* Ensures long names/URLs wrap */
+    margin-bottom: 0.25rem;
+    word-break: break-all;
 }
 .target-card .card-text.text-muted {
     font-size: 0.9rem;
