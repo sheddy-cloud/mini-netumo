@@ -32,12 +32,15 @@ export default {
           title: { text: 'Response Time (ms)' }
         },
         tooltip: {
+          shared: true,
+          intersect: false,
           x: { format: 'dd/MM/yy HH:mm' }
         },
         legend: {
           position: 'top'
         }
       }
+
     };
   },
   mounted() {
@@ -45,7 +48,7 @@ export default {
     EventBus.on('refresh-targets', this.fetchData)
   },
 
-  destroyed(){
+  destroyed() {
     EventBus.off('refresh-targets', this.fetchData)
   },
   methods: {

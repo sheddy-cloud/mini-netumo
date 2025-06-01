@@ -15,6 +15,14 @@
       "name": "Bob Smith",
       "created_at": "2024-06-05T12:00:00Z",
       "id": "1b11"
+    },
+    {
+      "user_id": 3,
+      "email": "carla@example.org",
+      "password_hash": "hashedpass789",
+      "name": "Carla Mendes",
+      "created_at": "2024-06-10T09:00:00Z",
+      "id": "aa54"
     }
   ],
   "targets": [
@@ -32,6 +40,11 @@
       "id": "1844",
       "name": "netumo",
       "url": "http://netumo.com"
+    },
+    {
+      "id": "2001",
+      "name": "travelsecure",
+      "url": "https://travelsecure.africa"
     }
   ],
   "alerts": [
@@ -52,32 +65,374 @@
       "message": "Your SSL certificate will expire in 5 days.",
       "sent_at": "2024-06-20T10:00:00Z",
       "id": "d41a"
+    },
+    {
+      "alert_id": 203,
+      "user_id": 3,
+      "target_id": 2001,
+      "type": "Domain Expired",
+      "message": "The domain travelsecure.africa has expired.",
+      "sent_at": "2024-06-28T11:05:00Z",
+      "id": "e3a2"
+    },
+    {
+      "alert_id": 204,
+      "user_id": 1,
+      "target_id": 101,
+      "type": "Downtime Resolved",
+      "message": "Example.com is back online.",
+      "sent_at": "2024-06-15T08:45:00Z",
+      "id": "aa1e"
+    },
+    {
+      "alert_id": 205,
+      "user_id": 1,
+      "target_id": 101,
+      "type": "High Latency",
+      "message": "Response time exceeded 300ms.",
+      "sent_at": "2024-06-26T06:10:00Z",
+      "id": "g113"
+    },
+    {
+      "alert_id": 206,
+      "user_id": 2,
+      "target_id": 102,
+      "type": "Downtime",
+      "message": "Anotherdomain.io is unreachable.",
+      "sent_at": "2024-06-26T07:10:00Z",
+      "id": "g114"
+    },
+    {
+      "alert_id": 207,
+      "user_id": 2,
+      "target_id": 102,
+      "type": "Downtime Resolved",
+      "message": "Anotherdomain.io is back online.",
+      "sent_at": "2024-06-26T07:35:00Z",
+      "id": "g115"
+    },
+    {
+      "alert_id": 208,
+      "user_id": 3,
+      "target_id": 1844,
+      "type": "SSL Valid",
+      "message": "SSL certificate renewed successfully.",
+      "sent_at": "2024-06-27T10:20:00Z",
+      "id": "g116"
     }
   ],
   "statuslogs": [
     {
-      "log_id": 301,
+      "log_id": 303,
+      "target_id": 101,
+      "status_code": 200,
+      "response_time_ms": 98,
+      "timestamp": "2024-06-26T06:00:00Z",
+      "id": "a100"
+    },
+    {
+      "log_id": 304,
+      "target_id": 101,
+      "status_code": 504,
+      "response_time_ms": 820,
+      "timestamp": "2024-06-26T06:15:00Z",
+      "id": "a101"
+    },
+    {
+      "log_id": 305,
+      "target_id": 101,
+      "status_code": 200,
+      "response_time_ms": 140,
+      "timestamp": "2024-06-26T06:30:00Z",
+      "id": "a102"
+    },
+    {
+      "log_id": 306,
+      "target_id": 101,
+      "status_code": 200,
+      "response_time_ms": 110,
+      "timestamp": "2024-06-26T06:45:00Z",
+      "id": "a103"
+    },
+    {
+      "log_id": 307,
+      "target_id": 101,
+      "status_code": 502,
+      "response_time_ms": 600,
+      "timestamp": "2024-06-26T07:00:00Z",
+      "id": "a104"
+    },
+    {
+      "log_id": 308,
+      "target_id": 101,
+      "status_code": 200,
+      "response_time_ms": 130,
+      "timestamp": "2024-06-26T07:15:00Z",
+      "id": "a105"
+    },
+    {
+      "log_id": 309,
+      "target_id": 101,
+      "status_code": 200,
+      "response_time_ms": 115,
+      "timestamp": "2024-06-26T07:30:00Z",
+      "id": "a106"
+    },
+    {
+      "log_id": 310,
+      "target_id": 101,
+      "status_code": 503,
+      "response_time_ms": 700,
+      "timestamp": "2024-06-26T07:45:00Z",
+      "id": "a107"
+    },
+    {
+      "log_id": 311,
       "target_id": 101,
       "status_code": 200,
       "response_time_ms": 120,
-      "timestamp": "2024-06-25T08:00:00Z",
-      "id": "719e"
+      "timestamp": "2024-06-26T08:00:00Z",
+      "id": "a108"
     },
     {
-      "log_id": 302,
+      "log_id": 311,
       "target_id": 101,
-      "status_code": 500,
-      "response_time_ms": 300,
-      "timestamp": "2024-06-25T08:15:00Z",
-      "id": "bd2c"
+      "status_code": 200,
+      "response_time_ms": 125,
+      "timestamp": "2024-06-26T08:15:00Z",
+      "id": "a109"
     },
     {
-      "log_id": 303,
+      "log_id": 312,
       "target_id": 102,
       "status_code": 404,
-      "response_time_ms": 180,
-      "timestamp": "2024-06-25T09:00:00Z",
-      "id": "8992"
+      "response_time_ms": 190,
+      "timestamp": "2024-06-26T06:15:00Z",
+      "id": "b101"
+    },
+    {
+      "log_id": 313,
+      "target_id": 102,
+      "status_code": 500,
+      "response_time_ms": 410,
+      "timestamp": "2024-06-26T06:30:00Z",
+      "id": "b102"
+    },
+    {
+      "log_id": 314,
+      "target_id": 102,
+      "status_code": 200,
+      "response_time_ms": 125,
+      "timestamp": "2024-06-26T06:45:00Z",
+      "id": "b103"
+    },
+    {
+      "log_id": 315,
+      "target_id": 102,
+      "status_code": 503,
+      "response_time_ms": 850,
+      "timestamp": "2024-06-26T07:00:00Z",
+      "id": "b104"
+    },
+    {
+      "log_id": 316,
+      "target_id": 102,
+      "status_code": 200,
+      "response_time_ms": 110,
+      "timestamp": "2024-06-26T07:15:00Z",
+      "id": "b105"
+    },
+    {
+      "log_id": 317,
+      "target_id": 102,
+      "status_code": 200,
+      "response_time_ms": 105,
+      "timestamp": "2024-06-26T07:30:00Z",
+      "id": "b106"
+    },
+    {
+      "log_id": 318,
+      "target_id": 102,
+      "status_code": 504,
+      "response_time_ms": 780,
+      "timestamp": "2024-06-26T07:45:00Z",
+      "id": "b107"
+    },
+    {
+      "log_id": 319,
+      "target_id": 102,
+      "status_code": 200,
+      "response_time_ms": 135,
+      "timestamp": "2024-06-26T08:00:00Z",
+      "id": "b108"
+    },
+    {
+      "log_id": 320,
+      "target_id": 102,
+      "status_code": 200,
+      "response_time_ms": 118,
+      "timestamp": "2024-06-26T08:15:00Z",
+      "id": "b109"
+    },
+    {
+      "log_id": 321,
+      "target_id": 102,
+      "status_code": 200,
+      "response_time_ms": 130,
+      "timestamp": "2024-06-26T08:30:00Z",
+      "id": "b110"
+    },
+    {
+      "log_id": 322,
+      "target_id": 1844,
+      "status_code": 502,
+      "response_time_ms": 620,
+      "timestamp": "2024-06-26T06:30:00Z",
+      "id": "c201"
+    },
+    {
+      "log_id": 323,
+      "target_id": 1844,
+      "status_code": 200,
+      "response_time_ms": 100,
+      "timestamp": "2024-06-26T06:45:00Z",
+      "id": "c202"
+    },
+    {
+      "log_id": 324,
+      "target_id": 1844,
+      "status_code": 504,
+      "response_time_ms": 900,
+      "timestamp": "2024-06-26T07:00:00Z",
+      "id": "c203"
+    },
+    {
+      "log_id": 325,
+      "target_id": 1844,
+      "status_code": 200,
+      "response_time_ms": 105,
+      "timestamp": "2024-06-26T07:15:00Z",
+      "id": "c204"
+    },
+    {
+      "log_id": 326,
+      "target_id": 1844,
+      "status_code": 200,
+      "response_time_ms": 98,
+      "timestamp": "2024-06-26T07:30:00Z",
+      "id": "c205"
+    },
+    {
+      "log_id": 327,
+      "target_id": 1844,
+      "status_code": 503,
+      "response_time_ms": 775,
+      "timestamp": "2024-06-26T07:45:00Z",
+      "id": "c206"
+    },
+    {
+      "log_id": 328,
+      "target_id": 1844,
+      "status_code": 200,
+      "response_time_ms": 90,
+      "timestamp": "2024-06-26T08:00:00Z",
+      "id": "c207"
+    },
+    {
+      "log_id": 329,
+      "target_id": 1844,
+      "status_code": 200,
+      "response_time_ms": 85,
+      "timestamp": "2024-06-26T08:15:00Z",
+      "id": "c208"
+    },
+    {
+      "log_id": 330,
+      "target_id": 1844,
+      "status_code": 200,
+      "response_time_ms": 100,
+      "timestamp": "2024-06-26T08:30:00Z",
+      "id": "c209"
+    },
+    {
+      "log_id": 331,
+      "target_id": 1844,
+      "status_code": 503,
+      "response_time_ms": 105,
+      "timestamp": "2024-06-26T08:45:00Z",
+      "id": "c210"
+    },
+    {
+      "log_id": 332,
+      "target_id": 2001,
+      "status_code": 502,
+      "response_time_ms": 670,
+      "timestamp": "2024-06-26T06:45:00Z",
+      "id": "d301"
+    },
+    {
+      "log_id": 333,
+      "target_id": 2001,
+      "status_code": 504,
+      "response_time_ms": 850,
+      "timestamp": "2024-06-26T07:00:00Z",
+      "id": "d302"
+    },
+    {
+      "log_id": 334,
+      "target_id": 2001,
+      "status_code": 200,
+      "response_time_ms": 95,
+      "timestamp": "2024-06-26T07:15:00Z",
+      "id": "d303"
+    },
+    {
+      "log_id": 335,
+      "target_id": 2001,
+      "status_code": 200,
+      "response_time_ms": 105,
+      "timestamp": "2024-06-26T07:30:00Z",
+      "id": "d304"
+    },
+    {
+      "log_id": 336,
+      "target_id": 2001,
+      "status_code": 503,
+      "response_time_ms": 700,
+      "timestamp": "2024-06-26T07:45:00Z",
+      "id": "d305"
+    },
+    {
+      "log_id": 337,
+      "target_id": 2001,
+      "status_code": 504,
+      "response_time_ms": 860,
+      "timestamp": "2024-06-26T08:00:00Z",
+      "id": "d306"
+    },
+    {
+      "log_id": 338,
+      "target_id": 2001,
+      "status_code": 502,
+      "response_time_ms": 655,
+      "timestamp": "2024-06-26T08:15:00Z",
+      "id": "d307"
+    },
+    {
+      "log_id": 339,
+      "target_id": 2001,
+      "status_code": 200,
+      "response_time_ms": 90,
+      "timestamp": "2024-06-26T08:30:00Z",
+      "id": "d308"
+    },
+    {
+      "log_id": 340,
+      "target_id": 2001,
+      "status_code": 200,
+      "response_time_ms": 100,
+      "timestamp": "2024-06-26T08:45:00Z",
+      "id": "d309"
     }
   ],
   "domainChecks": [
@@ -96,6 +451,14 @@
       "days_remaining": 50,
       "checked_at": "2024-06-25T07:10:00Z",
       "id": "2143"
+    },
+    {
+      "domain_id": 403,
+      "target_id": 2001,
+      "expiry_date": "2024-06-27T00:00:00Z",
+      "days_remaining": -1,
+      "checked_at": "2024-06-28T06:00:00Z",
+      "id": "3412"
     }
   ],
   "certificateChecks": [
@@ -114,6 +477,14 @@
       "days_remaining": 55,
       "checked_at": "2024-06-25T07:40:00Z",
       "id": "2fec"
+    },
+    {
+      "cert_id": 503,
+      "target_id": 1844,
+      "expiry_date": "2025-01-01T00:00:00Z",
+      "days_remaining": 187,
+      "checked_at": "2024-06-25T07:45:00Z",
+      "id": "34fa"
     }
   ]
 }
