@@ -46,7 +46,7 @@ def update_user(user_id: int, user_in: user.UserUpdate, db: Session = Depends(ge
     db_user = db.query(User).filter(User.id == user_id).first()
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
-    
+
     if user_in.name is not None:
         db_user.name = user_in.name
     if user_in.email is not None:

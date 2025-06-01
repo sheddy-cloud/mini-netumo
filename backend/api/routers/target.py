@@ -48,7 +48,7 @@ def update_target(target_id: int, target_update: TargetUpdate, db: Session = Dep
     db_target = db.query(Target).filter(Target.id == target_id).first()
     if db_target is None:
         raise HTTPException(status_code=404, detail="Target not found")
-    
+
     db_target.url = target_update.url if target_update.url is not None else db_target.url
     db_target.check_interval = target_update.check_interval if target_update.check_interval is not None else db_target.check_interval
     db_target.enabled = target_update.enabled if target_update.enabled is not None else db_target.enabled
