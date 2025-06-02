@@ -1,5 +1,5 @@
-import { ref } from 'vue';
+import { ref } from 'vue'
 
-const errors = ref([]);
+const errors = ref([])
 
-export default errors;
+export default errors
