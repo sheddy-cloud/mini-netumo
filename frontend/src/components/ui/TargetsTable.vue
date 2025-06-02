@@ -114,39 +114,40 @@ export default {
                 </select>
             </div>
         </div>
-
-        <table class="table table-striped align-middle">
-            <thead class="table-light">
-                <tr>
-                    <th>Name</th>
-                    <th>URL</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="target in paginatedTargets" :key="target.id">
-                    <td>
-                        <router-link :to="`/targets/${target.id}`">
-                            {{ target.name }}
-                        </router-link>
-                    </td>
-                    <td>
-                        <a :href="target.url" target="_blank" rel="noopener noreferrer">
-                            {{ target.url }}
-                            <i class="bi bi-box-arrow-up-right ms-1" aria-label="Opens in new tab"></i>
-                        </a>
-                    </td>
-                    <td>
-                        <button class="btn btn-sm btn-warning me-2" @click="openEditModal(target)">
-                            <i class="bi bi-pencil"></i>
-                        </button>
-                        <button class="btn btn-sm btn-danger" @click="openDeleteModal(target)">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>URL</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="target in paginatedTargets" :key="target.id">
+                        <td>
+                            <router-link :to="`/targets/${target.id}`">
+                                {{ target.name }}
+                            </router-link>
+                        </td>
+                        <td>
+                            <a :href="target.url" target="_blank" rel="noopener noreferrer">
+                                {{ target.url }}
+                                <i class="bi bi-box-arrow-up-right ms-1" aria-label="Opens in new tab"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-warning me-2" @click="openEditModal(target)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" @click="openDeleteModal(target)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <nav class="mt-3" style="margin-right: auto;">
             <ul class="pagination justify-content-start">
                 <li class="page-item" :class="{ disabled: currentPage === 1 }">
