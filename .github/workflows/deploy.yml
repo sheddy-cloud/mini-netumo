@@ -34,23 +34,76 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # set env
-            sudo apt update
-            sudo apt upgrade
-            sudo apt install nginx -y
+            #!/bin/bash
 
-            # setup nginx server
-            sudo systemctl stop nginx
-            sudo rm -f /etc/nginx/conf.d/app.conf
-            echo "server {
-                listen 80 default_server;
-                server_name _;
+            set -e  # Stop if any command fails
 
-                root /var/www/html;
-                index index.html index.htm index.nginx-debian.html;
+            echo "🔍 Checking for existing Nginx installation..."
+            if dpkg -s nginx &> /dev/null; then
+                echo "⚠️ Nginx is installed. Removing..."
+                sudo systemctl stop nginx
+                sudo apt-get remove --purge -y nginx nginx-common
+                sudo apt-get autoremove -y
+                sudo rm -rf /etc/nginx /var/www/html
+                echo "✅ Nginx removed."
+            else
+                echo "✅ Nginx not installed."
+            fi
 
-                location / {
-                  try_files \$uri \$uri/ =404;
-                }
-              }" | sudo tee /etc/nginx/conf.d/app.conf
-            sudo service nginx restart
+            echo "🔍 Checking for Docker installation..."
+            if ! command -v docker &> /dev/null; then
+                echo "🐳 Installing Docker..."
+                sudo apt update
+                sudo apt install -y \
+                    ca-certificates \
+                    curl \
+                    gnupg \
+                    lsb-release
+
+                sudo mkdir -p /etc/apt/keyrings
+                curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
+                  sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+                echo \
+                  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+                  https://download.docker.com/linux/ubuntu \
+                  $(lsb_release -cs) stable" | \
+                  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+                sudo apt update
+                sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+                echo "✅ Docker installed."
+            else
+                echo "✅ Docker already installed."
+            fi
+
+            echo "🔄 Installing latest Docker Compose v2 binary..."
+
+            # Remove v1 if exists
+            if [ -f "/usr/local/bin/docker-compose" ]; then
+                sudo rm /usr/local/bin/docker-compose
+            fi
+
+            # Install v2
+            sudo curl -SL "https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64" \
+              -o /usr/local/bin/docker-compose
+            sudo chmod +x /usr/local/bin/docker-compose
+
+            # Symlink to docker-compose plugin location if using newer Docker
+            if [ ! -f /usr/bin/docker-compose ]; then
+                sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+            fi
+
+            echo "✅ Docker Compose version: $(docker-compose version)"
+
+            echo "🚀 Starting deployment..."
+
+            # Optional: navigate into project directory if needed
+            # cd /path/to/project
+
+            cd /home/ubuntu/app/
+            docker-compose down --remove-orphans
+            docker-compose up --build -d
+
+            echo "🎉 App is deployed and accessible on"
