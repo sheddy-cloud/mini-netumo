@@ -103,7 +103,7 @@ jobs:
             # cd /path/to/project
 
             cd /home/ubuntu/app/
-            docker-compose down --remove-orphans
-            docker-compose up --build -d
+            sudo docker-compose down --remove-orphans
+            sudo docker-compose up --build -d
 
             echo "🎉 App is deployed and accessible on"
