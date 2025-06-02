@@ -16,7 +16,9 @@ router = APIRouter(prefix="/domainchecks", tags=["Domain Checks"])
 
 # Create domain check (by machine)
 @router.post("/", response_model=DomainCheckResponse)
-def create_domain_check(check: DomainCheckCreate, db: Session = Depends(get_db)):
+def create_domain_check(
+    check: DomainCheckCreate, db: Session = Depends(get_db)
+):
     db_check = DomainCheck(
         target_id=check.target_id,
         expiry_date=check.expiry_date,
@@ -32,9 +34,8 @@ def create_domain_check(check: DomainCheckCreate, db: Session = Depends(get_db))
 # Get all domain checks
 @router.get("/", response_model=List[DomainCheckResponse])
 def get_domain_checks(
-        skip: int = 0,
-        limit: int = 10,
-        db: Session = Depends(get_db)):
+    skip: int = 0, limit: int = 10, db: Session = Depends(get_db)
+):
     return db.query(DomainCheck).offset(skip).limit(limit).all()
 
 

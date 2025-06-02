@@ -40,8 +40,7 @@ class Target(Base):
     user = relationship("User", back_populates="targets")
     status_logs = relationship("StatusLog", back_populates="target")
     domain_checks = relationship("DomainCheck", back_populates="target")
-    certificate_checks = relationship("CertificateCheck",
-                                      back_populates="target")
+    certificate_checks = relationship("CertificateCheck", back_populates="target")
 
 
 class StatusLog(Base):
