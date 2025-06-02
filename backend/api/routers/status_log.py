@@ -1,13 +1,15 @@
 # backend/api/routers/status_log.py
 
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
 from datetime import datetime, timezone
 from typing import List
 
 from api.database import get_db
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+
 from ..models.models import StatusLog
-from ..schemas.status_log import StatusLogCreate, StatusLogResponse, StatusLogUpdate
+from ..schemas.status_log import (StatusLogCreate, StatusLogResponse,
+                                  StatusLogUpdate)
 
 router = APIRouter(prefix="/statuslogs", tags=["Status Logs"])
 
@@ -29,7 +31,10 @@ def create_status_log(log: StatusLogCreate, db: Session = Depends(get_db)):
 
 # Get all logs
 @router.get("/", response_model=List[StatusLogResponse])
-def get_status_logs(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+def get_status_logs(
+        skip: int = 0,
+        limit: int = 10,
+        db: Session = Depends(get_db)):
     return db.query(StatusLog).offset(skip).limit(limit).all()
 
 
@@ -44,7 +49,10 @@ def get_status_log(log_id: int, db: Session = Depends(get_db)):
 
 # Update log (optional for admin)
 @router.put("/{log_id}", response_model=StatusLogResponse)
-def update_status_log(log_id: int, log: StatusLogUpdate, db: Session = Depends(get_db)):
+def update_status_log(
+        log_id: int,
+        log: StatusLogUpdate,
+        db: Session = Depends(get_db)):
     db_log = db.query(StatusLog).filter(StatusLog.id == log_id).first()
     if not db_log:
         raise HTTPException(status_code=404, detail="Status log not found")

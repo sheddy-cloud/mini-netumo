@@ -1,9 +1,11 @@
 # backend/api/routers/user.py
 
+from typing import List
+
+from api.database import get_db
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from typing import List
-from api.database import get_db
+
 from ..models.models import User
 from ..schemas import user
 from ..utils.security import hash_password
@@ -43,7 +45,10 @@ def get_user(user_id: int, db: Session = Depends(get_db)):
 
 # Update user
 @router.put("/{user_id}", response_model=user.UserResponse)
-def update_user(user_id: int, user_in: user.UserUpdate, db: Session = Depends(get_db)):
+def update_user(
+        user_id: int,
+        user_in: user.UserUpdate,
+        db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.id == user_id).first()
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")

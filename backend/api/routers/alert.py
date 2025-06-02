@@ -1,11 +1,12 @@
 # backend/api/routers/alert.py
 
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
 from datetime import datetime, timezone
 from typing import List
 
 from api.database import get_db
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+
 from ..models.models import Alert
 from ..schemas.alert import AlertCreate, AlertResponse, AlertUpdate
 
@@ -45,7 +46,10 @@ def get_alert(alert_id: int, db: Session = Depends(get_db)):
 
 # Update an alert (by admin if necessary)
 @router.put("/{alert_id}", response_model=AlertResponse)
-def update_alert(alert_id: int, alert: AlertUpdate, db: Session = Depends(get_db)):
+def update_alert(
+        alert_id: int,
+        alert: AlertUpdate,
+        db: Session = Depends(get_db)):
     db_alert = db.query(Alert).filter(Alert.id == alert_id).first()
     if not db_alert:
         raise HTTPException(status_code=404, detail="Alert not found")

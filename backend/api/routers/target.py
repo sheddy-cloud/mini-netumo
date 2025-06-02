@@ -1,13 +1,14 @@
 # backend/api/routers/target.py
 
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-from typing import List, Optional
 from datetime import datetime, timezone
+from typing import List, Optional
 
 from api.database import get_db
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+
 from ..models.models import Target
-from ..schemas.target import TargetCreate, TargetUpdate, TargetResponse
+from ..schemas.target import TargetCreate, TargetResponse, TargetUpdate
 
 router = APIRouter(prefix="/targets", tags=["Targets"])
 

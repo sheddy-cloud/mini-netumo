@@ -1,7 +1,8 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Text
-from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
+
 from api.database import Base
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Text
+from sqlalchemy.orm import relationship
 
 # ----------------------------- SQLAlchemy Models -----------------------------
 
@@ -39,7 +40,8 @@ class Target(Base):
     user = relationship("User", back_populates="targets")
     status_logs = relationship("StatusLog", back_populates="target")
     domain_checks = relationship("DomainCheck", back_populates="target")
-    certificate_checks = relationship("CertificateCheck", back_populates="target")
+    certificate_checks = relationship("CertificateCheck",
+                                      back_populates="target")
 
 
 class StatusLog(Base):

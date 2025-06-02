@@ -1,17 +1,15 @@
 # backend/api/routers/domain_check.py
 
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
 from datetime import datetime, timezone
 from typing import List
 
 from api.database import get_db
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+
 from ..models.models import DomainCheck
-from ..schemas.domain_check import (
-    DomainCheckCreate,
-    DomainCheckResponse,
-    DomainCheckUpdate,
-)
+from ..schemas.domain_check import (DomainCheckCreate, DomainCheckResponse,
+                                    DomainCheckUpdate)
 
 router = APIRouter(prefix="/domainchecks", tags=["Domain Checks"])
 
@@ -33,7 +31,10 @@ def create_domain_check(check: DomainCheckCreate, db: Session = Depends(get_db))
 
 # Get all domain checks
 @router.get("/", response_model=List[DomainCheckResponse])
-def get_domain_checks(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+def get_domain_checks(
+        skip: int = 0,
+        limit: int = 10,
+        db: Session = Depends(get_db)):
     return db.query(DomainCheck).offset(skip).limit(limit).all()
 
 

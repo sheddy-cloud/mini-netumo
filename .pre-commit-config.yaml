@@ -14,8 +14,14 @@ repos:
         language: node
         types: [css]
         files: \.css$
-  - repo: https://github.com/psf/black
-    rev: 24.4.2
+  - repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v1.5.7  # or latest
     hooks:
-      - id: black
+      - id: autopep8
+        args: ["--in-place", "--aggressive", "--aggressive", "--max-line-length=82"]
+
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v5.9.3
+    hooks:
+      - id: isort
         language_version: python3
