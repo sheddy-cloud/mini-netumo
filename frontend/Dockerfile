@@ -19,7 +19,7 @@ RUN npm run build
 
 # Final image to run the frontend + JSON Server
 FROM node:20-alpine
-RUN npm install -g serve json-server
+RUN npm install -g serve@letest json-server@latest
 
 WORKDIR /app
 
