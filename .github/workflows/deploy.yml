@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-22.04
     environment:
       name: production
-      url: http://13.60.76.94/
+      url: http://172.104.208.84/
 
     steps:
       - name: Checkout the code
