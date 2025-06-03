@@ -7,6 +7,8 @@ from api.database import get_db
 from ..models.models import User
 from ..schemas import user
 from ..utils.security import hash_password
+from api.utils.security import get_current_user
+from ..models import User as UserModel
 
 router = APIRouter(
     prefix="/users",
@@ -28,25 +30,46 @@ def create_user(user_in: user.UserCreate, db: Session = Depends(get_db)):
 
 # Read all users
 @router.get("/", response_model=List[user.UserResponse])
-def read_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+def read_users(
+    skip: int = 0,
+    limit: int = 10,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
     users = db.query(User).offset(skip).limit(limit).all()
     return users
 
 # View single user
 @router.get("/{user_id}", response_model=user.UserResponse)
-def get_user(user_id: int, db: Session = Depends(get_db)):
+def get_user(
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
+    if current_user.id != user_id:
+        raise HTTPException(status_code=403, detail="Not authorized to access this resource")
+    
     user_obj = db.query(User).filter(User.id == user_id).first()
     if user_obj is None:
         raise HTTPException(status_code=404, detail="User not found")
     return user_obj
 
+
 # Update user
 @router.put("/{user_id}", response_model=user.UserResponse)
-def update_user(user_id: int, user_in: user.UserUpdate, db: Session = Depends(get_db)):
+def update_user(
+    user_id: int,
+    user_in: user.UserUpdate,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
+    if current_user.id != user_id:
+        raise HTTPException(status_code=403, detail="Not authorized to update this user")
+
     db_user = db.query(User).filter(User.id == user_id).first()
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
-    
+
     if user_in.name is not None:
         db_user.name = user_in.name
     if user_in.email is not None:

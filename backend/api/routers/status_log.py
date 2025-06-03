@@ -1,19 +1,21 @@
-# backend/api/routers/status_log.py
-
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from datetime import datetime, timezone
 from typing import List
 
 from api.database import get_db
-from ..models.models import StatusLog
+from api.utils.security import get_current_user
+from api.models import User, Target, StatusLog
 from ..schemas.status_log import StatusLogCreate, StatusLogResponse, StatusLogUpdate
 
 router = APIRouter(prefix="/statuslogs", tags=["Status Logs"])
 
-# Create status log (by machine)
 @router.post("/", response_model=StatusLogResponse)
-def create_status_log(log: StatusLogCreate, db: Session = Depends(get_db)):
+def create_status_log(
+    log: StatusLogCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
     db_log = StatusLog(
         target_id=log.target_id,
         status_code=log.status_code,
@@ -25,25 +27,45 @@ def create_status_log(log: StatusLogCreate, db: Session = Depends(get_db)):
     db.refresh(db_log)
     return db_log
 
-# Get all logs
 @router.get("/", response_model=List[StatusLogResponse])
-def get_status_logs(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    return db.query(StatusLog).offset(skip).limit(limit).all()
+def get_status_logs(
+    skip: int = 0,
+    limit: int = 10,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    # Pata target_ids za current_user
+    user_target_ids = db.query(Target.id).filter(Target.user_id == current_user.id).subquery()
+    
+    # Pata logs tu za targets hizo
+    logs = db.query(StatusLog).filter(StatusLog.target_id.in_(user_target_ids)).offset(skip).limit(limit).all()
+    return logs
 
-# Get single log
 @router.get("/{log_id}", response_model=StatusLogResponse)
-def get_status_log(log_id: int, db: Session = Depends(get_db)):
+def get_status_log(
+    log_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
     db_log = db.query(StatusLog).filter(StatusLog.id == log_id).first()
     if not db_log:
         raise HTTPException(status_code=404, detail="Status log not found")
     return db_log
 
-# Update log (optional for admin)
 @router.put("/{log_id}", response_model=StatusLogResponse)
-def update_status_log(log_id: int, log: StatusLogUpdate, db: Session = Depends(get_db)):
+def update_status_log(
+    log_id: int,
+    log: StatusLogUpdate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
     db_log = db.query(StatusLog).filter(StatusLog.id == log_id).first()
     if not db_log:
         raise HTTPException(status_code=404, detail="Status log not found")
+
+    target = db.query(Target).filter(Target.id == db_log.target_id).first()
+    if target is None or target.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not authorized to update this log")
 
     if log.status_code is not None:
         db_log.status_code = log.status_code

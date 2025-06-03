@@ -5,7 +5,6 @@ from typing import Optional
 from datetime import datetime
 
 class TargetCreate(BaseModel):
-    user_id: int
     url: HttpUrl
     check_interval: int
     enabled: bool
