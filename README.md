@@ -33,3 +33,13 @@ pre-commit install
 ```bash
 pre-commit run --all-files
 ```
+
+## POOLING CONFIGURATIONS
+```env
+POSTGRES_USER=***
+POSTGRES_PASSWORD=****
+POSTGRES_DB=***
+
+PGBOUNCER_USER=***
+PGBOUNCER_PASSWORD=***
+```

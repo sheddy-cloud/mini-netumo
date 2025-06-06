@@ -46,9 +46,48 @@ services:
     networks:
       - netumo-net
 
+  postgres:
+    build: ./postgresql
+    container_name: db
+    environment:
+      - POSTGRESQL_USERNAME=${POSTGRES_USER}
+      - POSTGRESQL_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRESQL_DATABASE=${POSTGRES_DB}
+      - POSTGRESQL_LISTEN_ADDRESSES=127.0.0.1
+    networks:
+      - netumo-net
+    expose:
+      - "5432"
+    volumes:
+      - postgresdata:/bitnami/postgresql
+
+  pgbouncer:
+    build: ./pgbouncer
+    container_name: pool
+    environment:
+      - PGBOUNCER_AUTH_USER=${PGBOUNCER_USER}
+      - PGBOUNCER_AUTH_PASSWORD=${PGBOUNCER_PASSWORD}
+    depends_on:
+      - postgres
+    networks:
+      - netumo-net
+    expose:
+      - "6432"
+
+  backend:
+    build: ./app
+    container_name: backend
+    depends_on:
+      - pgbouncer
+    networks:
+      - netumo-net
+    ports:
+      - "5000:5000"
+
+
 volumes:
   dbdata:
-
+  postgresdata:
 networks:
   netumo-net:
     driver: bridge
