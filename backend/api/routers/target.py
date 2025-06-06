@@ -10,10 +10,6 @@ from ..models.models import Target, User
 from ..schemas.target import TargetCreate, TargetUpdate, TargetResponse
 from ..utils.security import get_current_user
 
-router = APIRouter(
-    prefix="/targets",
-    tags=["Targets"]
-)
 
 # ✅ Create a target (owned by current user)
 @router.post("/", response_model=TargetResponse)
@@ -27,7 +23,7 @@ def create_target(
         url=target_in.url,
         check_interval=target_in.check_interval,
         enabled=target_in.enabled,
-        created_at=datetime.now(timezone.utc)
+        created_at=datetime.now(timezone.utc),
     )
     db.add(db_target)
     db.commit()

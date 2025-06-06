@@ -1,5 +1,5 @@
-import ENDPOINTS from "./endpoints"
+import ENDPOINTS from './endpoints'
 
 export default {
-    ENDPOINTS
+  ENDPOINTS
 }

@@ -71,12 +71,12 @@ pip install -r requirements.txt
 
 # Initialize the database (run once)
 python init_db.py
-# OR 
+# OR
 python -m api.init_db (preferred)
 
 # Run the FastAPI server
-python uvicorn main:app --reload 
-# OR 
+python uvicorn main:app --reload
+# OR
 uvicorn main:app --reload
 # OR
 python -m uvicorn main:app --port 8001

@@ -20,7 +20,7 @@ def create_status_log(
         target_id=log.target_id,
         status_code=log.status_code,
         response_time_ms=log.response_time_ms,
-        timestamp=datetime.now(timezone.utc)
+        timestamp=datetime.now(timezone.utc),
     )
     db.add(db_log)
     db.commit()

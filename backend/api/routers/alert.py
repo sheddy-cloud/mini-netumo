@@ -4,6 +4,9 @@ from datetime import datetime, timezone
 from typing import List
 
 from api.database import get_db
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+
 from ..models.models import Alert
 from ..schemas.alert import AlertCreate, AlertResponse, AlertUpdate
 from api.utils.security import get_current_user
@@ -17,7 +20,7 @@ def create_alert(alert: AlertCreate, db: Session = Depends(get_db), current_user
         user_id=current_user.id,  # Set user from token, not from client input
         type=alert.type,
         message=alert.message,
-        sent_at=datetime.now(timezone.utc)
+        sent_at=datetime.now(timezone.utc),
     )
     db.add(db_alert)
     db.commit()

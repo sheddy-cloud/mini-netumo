@@ -27,7 +27,7 @@ def create_domain_check(check: DomainCheckCreate, db: Session = Depends(get_db),
         target_id=check.target_id,
         expiry_date=check.expiry_date,
         days_remaining=check.days_remaining,
-        checked_at=datetime.now(timezone.utc)
+        checked_at=datetime.now(timezone.utc),
     )
     db.add(db_check)
     db.commit()
@@ -60,6 +60,7 @@ def get_domain_check(check_id: int, db: Session = Depends(get_db), current_user:
     if not db_check:
         raise HTTPException(status_code=404, detail="Domain check not found")
     return db_check
+
 
 # Update domain check (admin only if needed)
 @router.put("/{check_id}", response_model=DomainCheckResponse)

@@ -25,7 +25,7 @@ def create_cert_check(cert: CertificateCheckCreate, db: Session = Depends(get_db
         target_id=cert.target_id,
         expiry_date=cert.expiry_date,
         days_remaining=cert.days_remaining,
-        checked_at=datetime.now(timezone.utc)
+        checked_at=datetime.now(timezone.utc),
     )
     db.add(db_cert)
     db.commit()
@@ -53,7 +53,9 @@ def get_cert_check(check_id: int, db: Session = Depends(get_db), current_user: U
         .first()
     )
     if not cert:
-        raise HTTPException(status_code=404, detail="Certificate check not found")
+        raise HTTPException(
+            status_code=404, detail="Certificate check not found"
+        )
     return cert
 
 @router.put("/{check_id}", response_model=CertificateCheckResponse)
@@ -65,7 +67,9 @@ def update_cert_check(check_id: int, cert_data: CertificateCheckUpdate, db: Sess
         .first()
     )
     if not cert:
-        raise HTTPException(status_code=404, detail="Certificate check not found")
+        raise HTTPException(
+            status_code=404, detail="Certificate check not found"
+        )
 
     if cert_data.expiry_date is not None:
         cert.expiry_date = cert_data.expiry_date

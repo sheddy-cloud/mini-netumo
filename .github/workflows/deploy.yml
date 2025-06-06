@@ -11,8 +11,8 @@ jobs:
     name: Push to EC2
     runs-on: ubuntu-22.04
     environment:
-      name: production         
-      url: http://13.61.18.141/ 
+      name: production
+      url: http://172.104.208.84/
 
     steps:
       - name: Checkout the code
@@ -34,23 +34,46 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # set env
-            sudo apt update
-            sudo apt upgrade
-            sudo apt install nginx -y
+            echo "🔍 Checking for Docker installation..."
+            if ! command -v docker &> /dev/null; then
+                echo "🐳 Installing Docker..."
+                sudo apt update
+                sudo apt install -y \
+                    ca-certificates \
+                    curl \
+                    gnupg \
+                    lsb-release
 
-            # setup nginx server
-            sudo systemctl stop nginx
-            sudo rm -f /etc/nginx/conf.d/app.conf
-            echo "server {
-                listen 80 default_server;
-                server_name _;
+                sudo mkdir -p /etc/apt/keyrings
+                curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
+                  sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 
-                root /var/www/html;
-                index index.html index.htm index.nginx-debian.html;
+                echo \
+                  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+                  https://download.docker.com/linux/ubuntu \
+                  $(lsb_release -cs) stable" | \
+                  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-                location / {
-                  try_files \$uri \$uri/ =404;
-                }
-              }" | sudo tee /etc/nginx/conf.d/app.conf
-            sudo service nginx restart
+                sudo apt update
+                sudo apt install -y docker-ce docker-ce-cli containerd.io
+
+                sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
+                  -o /usr/local/bin/docker-compose
+                  sudo chmod +x /usr/local/bin/docker-compose
+                echo "✅ Docker installed."
+            else
+                echo "✅ Docker already installed."
+            fi
+
+            echo "✅ Docker Compose version: $(docker-compose version)"
+
+            echo "🚀 Starting deployment..."
+
+            # Optional: navigate into project directory if needed
+            # cd /path/to/project
+
+            cd /home/ubuntu/app/
+            sudo docker-compose down --remove-orphans
+            sudo docker-compose up --build -d
+
+            echo "🎉 App is deployed and accessible on"
