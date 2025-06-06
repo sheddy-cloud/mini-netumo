@@ -10,6 +10,10 @@ from ..models.models import Target, User
 from ..schemas.target import TargetCreate, TargetUpdate, TargetResponse
 from ..utils.security import get_current_user
 
+router = APIRouter(
+    prefix="/targets",
+    tags=["Targets"]
+)
 
 # ✅ Create a target (owned by current user)
 @router.post("/", response_model=TargetResponse)
