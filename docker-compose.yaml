@@ -67,6 +67,7 @@ services:
     environment:
       - PGBOUNCER_AUTH_USER=${PGBOUNCER_USER}
       - PGBOUNCER_AUTH_PASSWORD=${PGBOUNCER_PASSWORD}
+      - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
     depends_on:
       - postgres
     networks:
@@ -75,7 +76,7 @@ services:
       - "6432"
 
   backend:
-    build: ./app
+    build: ./backend
     container_name: backend
     depends_on:
       - pgbouncer
