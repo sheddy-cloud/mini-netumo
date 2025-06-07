@@ -54,6 +54,9 @@ export default {
         console.error('Failed to fetch node ID:', err);
       });
   },
+  destroyed(){
+    clearInterval(this.refresher);
+  },
   methods: {
     removeError(index) {
       this.sharedErrors.splice(index, 1);

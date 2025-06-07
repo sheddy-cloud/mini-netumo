@@ -6,7 +6,10 @@
 LOG_FILE="/var/log/mini-netumo-update.log"
 DATE=$(date '+%Y-%m-%d %H:%M:%S')
 
-echo "[$DATE] Pulling latest Docker images..." >> "$LOG_FILE"
+{
+  echo "[$DATE] Pulling latest Docker images..."
+} >> "$LOG_FILE"
+
 docker-compose pull >> "$LOG_FILE" 2>&1
 
 echo "[$DATE] Restarting services..." >> "$LOG_FILE"
