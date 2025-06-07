@@ -3,6 +3,7 @@
 
 A lightweight clone of Netumo to monitor website uptime, SSL, and domain expiry. Sends alerts via email and displays metrics on a dashboard.
 
+---
 
 ## Features
 
