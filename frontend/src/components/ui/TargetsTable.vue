@@ -128,9 +128,9 @@ export default {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="target in paginatedTargets" :key="target.id">
+                    <tr v-for="target in paginatedTargets" :key="target.target_id">
                         <td>
-                            <router-link :to="`/targets/${target.id}`">
+                            <router-link :to="`/targets/${target.target_id}`">
                                 {{ target.name }}
                             </router-link>
                         </td>

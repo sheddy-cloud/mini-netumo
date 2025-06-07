@@ -5,6 +5,8 @@ from typing import List
 
 from api.database import get_db
 from fastapi import APIRouter, Depends, HTTPException
+from scheduler import (cancel_target_jobs, schedule_cert_check,
+                       schedule_target_monitoring)
 from sqlalchemy.orm import Session
 
 from ..models.models import Target, User
@@ -34,6 +36,10 @@ def create_target(
     db.add(db_target)
     db.commit()
     db.refresh(db_target)
+
+    # Schedule monitoring jobs
+    schedule_target_monitoring(db_target.target_id, db_target.url)
+    schedule_cert_check(db_target.target_id, db_target.url)
     return db_target
 
 
@@ -41,11 +47,10 @@ def create_target(
 @router.get("/", response_model=List[TargetResponse])
 def read_targets(
     skip: int = 0,
-    limit: int = 10,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    return db.query(Target).filter(Target.user_id == current_user.id).offset(skip).limit(limit).all()
+    return db.query(Target).filter(Target.user_id == current_user.id).offset(skip).all()
 
 
 # ✅ Read one target by ID (only if owned)
@@ -55,7 +60,7 @@ def read_target(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    db_target = db.query(Target).filter(Target.id == target_id).first()
+    db_target = db.query(Target).filter(Target.target_id == target_id).first()
     if db_target is None:
         raise HTTPException(status_code=404, detail="Target not found")
     if db_target.user_id != current_user.id:
@@ -96,6 +101,8 @@ def delete_target(
     if db_target.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="Not authorized to delete this target")
 
+    # Cancel the scheduled jobs
     db.delete(db_target)
     db.commit()
+    cancel_target_jobs(target_id)
     return None

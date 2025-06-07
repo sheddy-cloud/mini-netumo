@@ -21,9 +21,13 @@ class StatusLogUpdate(BaseModel):
     response_time_ms: Optional[float] = None
 
 
-class StatusLogResponse(StatusLogBase):
-    id: int
+
+class StatusLogResponse(BaseModel):
+    log_id: int
+    target_id: int
+    status_code: int
+    response_time_ms: float
     timestamp: datetime
 
     class Config:
-        from_attributes = True
+        orm_mode = True

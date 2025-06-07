@@ -46,8 +46,9 @@ export default {
             try {
                 // Assuming statuslogs are accessible via a target ID or you can filter them
                 // For a more robust API, you'd have an endpoint like /targets/{id}/statuslogs
-                const res = await net.get(ENDPOINTS.STATUS_LOGS);
-                const targetLogs = res.data.filter(log => log.target_id == this.id);
+                const res = await net.get(ENDPOINTS.STATUS_LOGS + this.id);
+                const targetLogs = res.data;
+                print(targetLogs)
 
                 if (targetLogs.length > 0) {
                     const successfulChecks = targetLogs.filter(log => log.status_code >= 200 && log.status_code < 300).length;
@@ -64,12 +65,12 @@ export default {
         async fetchSslAndRegistration() {
             try {
                 const [domainRes, certRes] = await Promise.all([
-                    net.get(ENDPOINTS.DOMAIN_CHECKS),
-                    net.get(ENDPOINTS.CERTIFICATE_CHECKS)
+                    net.get(ENDPOINTS.DOMAIN_CHECKS + this.id),
+                    net.get(ENDPOINTS.CERTIFICATE_CHECKS + this.id)
                 ]);
 
-                const targetDomainCheck = domainRes.data.find(check => check.target_id == this.id);
-                const targetCertCheck = certRes.data.find(check => check.target_id == this.id);
+                const targetDomainCheck = domainRes.data;
+                const targetCertCheck = certRes.data;
 
                 if (targetDomainCheck) {
                     this.registrationDaysLeft = `${targetDomainCheck.days_remaining} days left`;

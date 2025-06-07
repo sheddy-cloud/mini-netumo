@@ -6,8 +6,8 @@ const ENDPOINTS = {
   TARGET: `${API_URL}/targets/`,
   REGISTER: `${API_URL}/auth/register/`,
   STATUS_LOGS: `${API_URL}/statuslogs/`, // New endpoint
-  DOMAIN_CHECKS: `${API_URL}/domainChecks/`, // New endpoint
-  CERTIFICATE_CHECKS: `${API_URL}/certificateChecks/`, // New endpoint
+  DOMAIN_CHECKS: `${API_URL}/domainchecks/`, // New endpoint
+  CERTIFICATE_CHECKS: `${API_URL}/certificatechecks/`, // New endpoint
   ALERTS: `${API_URL}/alerts/` // New endpoint for alerts
 }
 
