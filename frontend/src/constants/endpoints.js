@@ -1,4 +1,4 @@
-export const API_URL = 'http://localhost/api'
+export const API_URL = 'http://172.104.208.84/api'
 
 const ENDPOINTS = {
   LOGIN: `${API_URL}/auth/login`,
