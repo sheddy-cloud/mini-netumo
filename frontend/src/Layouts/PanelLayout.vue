@@ -65,7 +65,7 @@ export default {
   <div v-if="nodeId" class="server-node">
     Served by: {{ nodeId }}
   </div>
-  hhhahah
+ 
   </div>
     <div class="pagetitle">
       <h1>{{ title }}</h1>
