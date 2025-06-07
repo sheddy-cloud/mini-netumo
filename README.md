@@ -154,3 +154,12 @@ Delivery:
 * `screenshots/`
 * `logs/`
 * `db_backup.sql.gz`
+## POOLING CONFIGURATIONS
+```env
+POSTGRES_USER=***
+POSTGRES_PASSWORD=****
+POSTGRES_DB=***
+
+PGBOUNCER_USER=***
+PGBOUNCER_PASSWORD=***
+```
