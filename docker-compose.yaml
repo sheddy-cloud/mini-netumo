@@ -22,7 +22,7 @@ services:
       dockerfile: Dockerfile
     container_name: frontend1
     volumes:
-      - dbdata:/app/database  # shared volume for json-server db.json persistence
+      - dbdata:/app/database
     networks:
       - netumo-net
 
