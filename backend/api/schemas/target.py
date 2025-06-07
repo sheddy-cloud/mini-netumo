@@ -8,23 +8,22 @@ from pydantic import BaseModel, HttpUrl
 
 class TargetCreate(BaseModel):
     url: HttpUrl
-    check_interval: int
-    enabled: bool
+    name: str
 
 
 class TargetUpdate(BaseModel):
     url: Optional[HttpUrl] = None
-    check_interval: Optional[int] = None
-    enabled: Optional[bool] = None
+    name: Optional[str] = None
 
 
 class TargetResponse(BaseModel):
-    id: int
+    target_id: int
     user_id: int
     url: HttpUrl
     check_interval: int
     enabled: bool
     created_at: datetime
+    name: str
 
     class Config:
-        from_attributes = True
+        orm_mode = True

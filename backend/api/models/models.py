@@ -33,6 +33,7 @@ class Alert(Base):
 class Target(Base):
     __tablename__ = "targets"
     target_id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"))
     url = Column(String)
     check_interval = Column(Integer)

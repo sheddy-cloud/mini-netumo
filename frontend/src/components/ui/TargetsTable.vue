@@ -66,8 +66,12 @@ export default {
             if (!this.selectedTarget) return;
 
             try {
-                await net.delete(`${ENDPOINTS.TARGET}${this.selectedTarget.id}`);
+                await net.delete(`${ENDPOINTS.TARGET}${this.selectedTarget.target_id}`);
                 this.closeModals();
+                errors.value.push({
+                    type: "success",
+                    message: `Deleted ${this.selectedTarget.name } Successfully`
+                })
                 EventBus.emit('refresh-targets');
             } catch (e) {
                 errors.value.push({
