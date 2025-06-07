@@ -30,7 +30,7 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return new_user
+    return UserResponse.from_orm(new_user)
 
 #for login
 @router.post("/login", response_model=TokenResponse)

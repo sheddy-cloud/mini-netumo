@@ -18,6 +18,9 @@ class UserResponse(BaseModel):
     email: str
     created_at: Optional[datetime]
 
+    class Config:
+        orm_mode = True
+
 class UserLogin(BaseModel):
     email: str
     password: str

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { API_URL } from '../constants/endpoints'
+import router from '../router' // Make sure this path is correct
 
 const net = axios.create({
   baseURL: API_URL,
@@ -7,4 +8,19 @@ const net = axios.create({
   headers: {}
 })
 
+// Axios response interceptor
+net.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response && error.response.status === 401) {
+      // Redirect to login page if not already there
+      if (router.currentRoute.value.path !== '/login') {
+        router.push('/login')
+      }
+    }
+    return Promise.reject(error)
+  }
+)
+
 export default net
+

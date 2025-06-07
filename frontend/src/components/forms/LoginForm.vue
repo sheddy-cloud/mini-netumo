@@ -1,8 +1,8 @@
 <script>
 import BlankFormLayout from '../../Layouts/BlankFormLayout.vue';
-import net from '../../services/NetworkService'; // Assuming NetworkService is your 'net'
-import errors from '../../constants/errors'; // Assuming errors is your global error handler
-import ENDPOINTS from '../../constants/endpoints'; // Assuming you have an ENDPOINTS constant for login
+import net from '../../services/NetworkService'; // Network request handler
+import errors from '../../constants/errors'; // Global error store
+import ENDPOINTS from '../../constants/endpoints'; // API endpoints
 
 export default {
     name: "LoginForm",
@@ -11,37 +11,40 @@ export default {
     },
     data() {
         return {
-            username: '', // Can be used for email or a username
+            name: '',
             password: '',
-            loading: false, // Add loading state
+            loading: false,
         };
     },
     methods: {
         async handleLogin() {
-            this.loading = true; // Set loading to true on submission
-            errors.value = []; // Clear previous errors using the global errors object
+            this.loading = true;
+            errors.value = []; // Clear previous errors
 
-            if (!this.username.trim() || !this.password.trim()) {
+            if (!this.name.trim() || !this.password.trim()) {
                 errors.value.push({ type: "danger", message: "Please enter both username/email and password." });
                 this.loading = false;
                 return;
             }
 
             try {
-                // Call the login endpoint using net.post
-                const user = await net.get(ENDPOINTS.LOGIN, { // Assuming ENDPOINTS.LOGIN is defined
-                    username: this.username,
+                // Use POST instead of GET
+                const response = await net.post(ENDPOINTS.LOGIN, {
+                    email: this.name,
                     password: this.password,
                 });
 
+                // Optionally store token here if login is successful
+                // localStorage.setItem('token', response.data.access_token);
+
                 errors.value.push({ type: "success", message: 'Login successful!' });
-                // Clear inputs on success
-                this.username = '';
+                this.name = '';
                 this.password = '';
             } catch (err) {
-                errors.value.push({ type: "danger", message: `Login failed: ${backendMessage}.` });
+                const message = err?.response?.data?.detail || 'Unexpected error occurred.';
+                errors.value.push({ type: "danger", message: `Login failed: ${message}` });
             } finally {
-                this.loading = false; // Set loading to false after submission
+                this.loading = false;
             }
         },
     },
@@ -54,18 +57,21 @@ export default {
             <div class="card-header">
                 <h4>Login to Mini-Netumo</h4>
             </div>
-            <div v-if="loading" class="card-body">...</div>
-            <div class="card-body">
+            <div v-if="loading" class="card-body">
+                <p>Loading...</p>
+            </div>
+            <div class="card-body" v-else>
                 <form @submit.prevent="handleLogin">
                     <div class="mb-3">
-                        <label for="username" class="form-label">Username or Email</label>
+                        <label for="name" class="form-label">Username or Email</label>
                         <input
-                            type="text"
+                            type="email"
                             class="form-control"
-                            id="username"
-                            v-model="username"
-                            placeholder="Enter your username or email"
+                            id="name"
+                            v-model="name"
+                            placeholder="Enter your name or email"
                             required
+
                         />
                     </div>
                     <div class="mb-3">
@@ -79,7 +85,9 @@ export default {
                             required
                         />
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                    <button type="submit" class="btn btn-primary w-100" :disabled="loading">
+                        {{ loading ? "Logging in..." : "Login" }}
+                    </button>
                 </form>
 
                 <p class="mt-3 text-center">

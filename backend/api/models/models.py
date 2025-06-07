@@ -19,6 +19,7 @@ class User(Base):
     targets = relationship("Target", back_populates="user")
 
 
+
 class Alert(Base):
     __tablename__ = "alerts"
     alert_id = Column(Integer, primary_key=True)
