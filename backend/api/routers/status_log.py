@@ -1,12 +1,15 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
 from datetime import datetime, timezone
 from typing import List
 
 from api.database import get_db
+from api.models import StatusLog, Target, User
 from api.utils.security import get_current_user
-from api.models import User, Target, StatusLog
-from ..schemas.status_log import StatusLogCreate, StatusLogResponse, StatusLogUpdate
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+
+from ..schemas.status_log import (StatusLogCreate, StatusLogResponse,
+                                  StatusLogUpdate)
 
 router = APIRouter(prefix="/statuslogs", tags=["Status Logs"])
 
@@ -34,11 +37,10 @@ def get_status_logs(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    # Pata target_ids za current_user
-    user_target_ids = db.query(Target.id).filter(Target.user_id == current_user.id).subquery()
-    
-    # Pata logs tu za targets hizo
-    logs = db.query(StatusLog).filter(StatusLog.target_id.in_(user_target_ids)).offset(skip).limit(limit).all()
+    # Correct subquery using target_id
+    subquery = select(Target.target_id).where(Target.user_id == current_user.id).scalar_subquery()
+
+    logs = db.query(StatusLog).filter(StatusLog.target_id.in_(subquery)).offset(skip).limit(limit).all()
     return logs
 
 @router.get("/{log_id}", response_model=StatusLogResponse)

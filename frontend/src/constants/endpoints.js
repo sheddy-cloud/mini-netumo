@@ -1,10 +1,10 @@
-export const API_URL = 'http://172.104.208.84/api'
+export const API_URL = 'http://127.0.0.1:8001'
 
 const ENDPOINTS = {
-  LOGIN: `${API_URL}/users/`,
+  LOGIN: `${API_URL}/auth/login/`,
   LOGOUT: `${API_URL}/auth/signout/`, // Assuming this is for your auth service
   TARGET: `${API_URL}/targets/`,
-  REGISTER: `${API_URL}/users/`,
+  REGISTER: `${API_URL}/auth/register/`,
   STATUS_LOGS: `${API_URL}/statuslogs/`, // New endpoint
   DOMAIN_CHECKS: `${API_URL}/domainChecks/`, // New endpoint
   CERTIFICATE_CHECKS: `${API_URL}/certificateChecks/`, // New endpoint
