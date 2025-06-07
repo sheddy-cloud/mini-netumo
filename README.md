@@ -1,4 +1,4 @@
-# mini-netumo
+# mini-netumo.
 
 
 A mini version of website monitoring platform like Netumo. It performs scheduled HTTP/HTTPS checks, monitors SSL and domain expiry, and sends alerts via email.
