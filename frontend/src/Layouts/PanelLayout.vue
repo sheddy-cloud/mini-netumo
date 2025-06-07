@@ -5,6 +5,7 @@ import PanelSidebar from '../components/ui/PanelSidebar.vue';
 import Alert from '../components/ui/Alert.vue';
 import errors from '../constants/errors.js';
 import { isAuthenticated } from '../services/AuthenticationService.js';
+import { EventBus } from '../constants/eventBus.js';
 
 export default {
   name: 'PanelLayout',
@@ -27,6 +28,7 @@ export default {
     return {
       sharedErrors: errors,
       loadingAuth: true,
+      refresher: null,
     };
   },
   watch: {
@@ -37,6 +39,9 @@ export default {
   created() {
     document.title = this.title;
     this.checkAuthentication();
+    this.refresher = setInterval(() => {
+      EventBus.emit('refresh-targets')
+    }, 10000)
   },
   methods: {
     removeError(index) {
@@ -59,12 +64,6 @@ export default {
         this.loadingAuth = false;
       }
     },
-    fakeAuthCheck() {
-      // Simulate async auth check — replace with your real auth logic
-      return new Promise((resolve) => {
-        setTimeout(() => resolve(true), 500); // For demo: authenticated after 0.5s
-      });
-    }
   }
 }
 </script>

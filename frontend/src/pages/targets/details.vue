@@ -48,7 +48,6 @@ export default {
                 // For a more robust API, you'd have an endpoint like /targets/{id}/statuslogs
                 const res = await net.get(ENDPOINTS.STATUS_LOGS + this.id);
                 const targetLogs = res.data;
-                print(targetLogs)
 
                 if (targetLogs.length > 0) {
                     const successfulChecks = targetLogs.filter(log => log.status_code >= 200 && log.status_code < 300).length;
