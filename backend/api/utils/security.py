@@ -1,24 +1,28 @@
 # api/utils/security.py
 
-import jwt
-from datetime import datetime, timedelta, timezone
-from dotenv import load_dotenv
 import os
-from passlib.context import CryptContext
+from datetime import datetime, timedelta, timezone
+
+import jwt
+from api.database import get_db
+from dotenv import load_dotenv
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
+from passlib.context import CryptContext
 from sqlalchemy.orm import Session
-from api.database import get_db
+
 from ..models.models import User
 
 # Load env vars
 load_dotenv(dotenv_path="./.env")
 
 SECRET_KEY = os.getenv("SECRET_KEY")
+
+if not SECRET_KEY:
+    raise ValueError("Missing SECRET_KEY environment variable")
+
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-print(SECRET_KEY)
-
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
