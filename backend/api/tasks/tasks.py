@@ -8,9 +8,8 @@ from datetime import datetime
 import aiohttp
 import whois
 from api.database import get_db
+from api.models.models import CertificateCheck, DomainCheck, StatusLog
 from celery_app import celery_app
-
-from ..models.models import CertificateCheck, DomainCheck, StatusLog
 
 db = next(get_db())
 

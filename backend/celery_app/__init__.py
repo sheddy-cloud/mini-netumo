@@ -14,10 +14,7 @@ celery_app = Celery(
 # Basic config
 celery_app.conf.timezone = 'UTC'
 celery_app.conf.task_routes = {
-    "tasks.*": {"queue": "default"},
+    "api.tasks.tasks.*": {"queue": "default"},
 }
 
-# Load beat schedule separately
-from .beat_schedule import beat_schedule
-
-celery_app.conf.beat_schedule = beat_schedule
+celery_app.autodiscover_tasks(['api.tasks'])

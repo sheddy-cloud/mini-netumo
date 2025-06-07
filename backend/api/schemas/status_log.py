@@ -24,10 +24,10 @@ class StatusLogUpdate(BaseModel):
 
 class StatusLogResponse(BaseModel):
     log_id: int
-    target_id: int
-    status_code: int
-    response_time_ms: float
-    timestamp: datetime
+    target_id: Optional[int] = None
+    status_code: Optional[int] = None
+    response_time_ms: Optional[float] = None
+    timestamp: Optional[datetime] = None
 
     class Config:
         orm_mode = True
