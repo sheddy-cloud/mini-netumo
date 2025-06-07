@@ -70,13 +70,13 @@ export default {
                 this.closeModals();
                 errors.value.push({
                     type: "success",
-                    message: `Deleted ${this.selectedTarget.name } Successfully`
+                    message: `Deleted  Successfully`
                 })
                 EventBus.emit('refresh-targets');
             } catch (e) {
                 errors.value.push({
                     type: "danger",
-                    message: `Failed to delete ${this.selectedTarget.name}.`,
+                    message: `Failed to delete .`,
                 });
             }
         },

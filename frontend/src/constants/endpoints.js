@@ -2,7 +2,7 @@ export const API_URL = 'http://127.0.0.1:8001'
 
 const ENDPOINTS = {
   LOGIN: `${API_URL}/auth/login/`,
-  LOGOUT: `${API_URL}/auth/signout/`, // Assuming this is for your auth service
+  LOGOUT: `${API_URL}/auth/signout/`,
   TARGET: `${API_URL}/targets/`,
   REGISTER: `${API_URL}/auth/register/`,
   STATUS_LOGS: `${API_URL}/statuslogs/`, // New endpoint
