@@ -55,7 +55,7 @@ def read_target(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    db_target = db.query(Target).filter(Target.id == target_id).first()
+    db_target = db.query(Target).filter(Target.target_id == target_id).first()
     if db_target is None:
         raise HTTPException(status_code=404, detail="Target not found")
     if db_target.user_id != current_user.id:
