@@ -1,16 +1,13 @@
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
 from datetime import datetime, timezone
 from typing import List
 
 from api.database import get_db
+from api.utils.security import get_current_user
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from ..models.models import Alert
+from ..models.models import Alert, User
 from ..schemas.alert import AlertCreate, AlertResponse, AlertUpdate
-from api.utils.security import get_current_user
-from ..models.models import User
 
 router = APIRouter(prefix="/alerts", tags=["Alerts"])
 

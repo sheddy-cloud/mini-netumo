@@ -13,7 +13,7 @@ SERVICES=("load-balancer" "frontend-1" "frontend-2" "frontend-3" "api" "worker" 
 
 for SERVICE in "${SERVICES[@]}"; do
     CONTAINER=$(docker ps --filter "name=${SERVICE}" --format "{{.Names}}")
-    
+
 # If the container is not running, it logs a warning and skips to the next one.
     if [ -z "$CONTAINER" ]; then
         echo "[$DATE] ALERT: $SERVICE container not running." >> "$LOG_FILE"
@@ -30,4 +30,3 @@ for SERVICE in "${SERVICES[@]}"; do
         docker restart "$CONTAINER" >> "$LOG_FILE" 2>&1
     fi
 done
-

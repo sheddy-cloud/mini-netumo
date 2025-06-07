@@ -3,14 +3,14 @@
 from typing import List
 
 from api.database import get_db
+from api.utils.security import get_current_user
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
+from ..models import User as UserModel
 from ..models.models import User
 from ..schemas import user
 from ..utils.security import hash_password
-from api.utils.security import get_current_user
-from ..models import User as UserModel
 
 router = APIRouter(
     prefix="/users",
@@ -52,7 +52,7 @@ def get_user(
 ):
     if current_user.id != user_id:
         raise HTTPException(status_code=403, detail="Not authorized to access this resource")
-    
+
     user_obj = db.query(User).filter(User.id == user_id).first()
     if user_obj is None:
         raise HTTPException(status_code=404, detail="User not found")
