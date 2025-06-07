@@ -1,2 +1,2 @@
-# backend/api/routers/__init__.py
-# This file allows Python to treat the directory as a package
+from .models import (Alert, CertificateCheck, DomainCheck, StatusLog, Target,
+                     User)

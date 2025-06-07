@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class CertificateCheckBase(BaseModel):
@@ -21,9 +21,10 @@ class CertificateCheckUpdate(BaseModel):
     days_remaining: Optional[int] = None
 
 
-class CertificateCheckResponse(CertificateCheckBase):
-    id: int
-    checked_at: datetime
-
-    class Config:
-        from_attributes = True
+class CertificateCheckResponse(BaseModel):
+    cert_id: int
+    target_id: int
+    expiry_date: Optional[datetime]
+    checked_at: Optional[datetime]
+    days_remaining: Optional[int]
+    model_config = ConfigDict(from_attributes=True)

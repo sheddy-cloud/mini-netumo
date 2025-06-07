@@ -66,13 +66,17 @@ export default {
             if (!this.selectedTarget) return;
 
             try {
-                await net.delete(`${ENDPOINTS.TARGET}${this.selectedTarget.id}`);
+                await net.delete(`${ENDPOINTS.TARGET}${this.selectedTarget.target_id}`);
                 this.closeModals();
+                errors.value.push({
+                    type: "success",
+                    message: `Deleted  Successfully`
+                })
                 EventBus.emit('refresh-targets');
             } catch (e) {
                 errors.value.push({
                     type: "danger",
-                    message: `Failed to delete ${this.selectedTarget.name}.`,
+                    message: `Failed to delete .`,
                 });
             }
         },
@@ -124,9 +128,9 @@ export default {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="target in paginatedTargets" :key="target.id">
+                    <tr v-for="target in paginatedTargets" :key="target.target_id">
                         <td>
-                            <router-link :to="`/targets/${target.id}`">
+                            <router-link :to="`/targets/${target.target_id}`">
                                 {{ target.name }}
                             </router-link>
                         </td>

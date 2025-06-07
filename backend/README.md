@@ -128,6 +128,9 @@ POST /certificatechecks/ — Create certificate check record
 
 GET /certificatechecks/ — List certificate checks
 
+install celery + redis
+pip install celery redis
+
 # Notes
 Passwords are securely hashed before storing.
 

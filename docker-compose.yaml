@@ -22,9 +22,11 @@ services:
       dockerfile: Dockerfile
     container_name: frontend1
     volumes:
-      - dbdata:/app/database  # shared volume for json-server db.json persistence
+      - dbdata:/app/database
     networks:
       - netumo-net
+    ports:
+      - "80"
 
   frontend2:
     build:
@@ -35,6 +37,8 @@ services:
       - dbdata:/app/database
     networks:
       - netumo-net
+    ports:
+      - "80"
 
   frontend3:
     build:
@@ -45,10 +49,70 @@ services:
       - dbdata:/app/database
     networks:
       - netumo-net
+    ports:
+      - "80"
 
+  postgres:
+    build: ./postgresql
+    container_name: db
+    environment:
+      - POSTGRESQL_USERNAME=${POSTGRES_USER}
+      - POSTGRESQL_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRESQL_DATABASE=${POSTGRES_DB}
+      - POSTGRESQL_LISTEN_ADDRESSES=0.0.0.0
+    networks:
+      - netumo-net
+    expose:
+      - "5432"
+    volumes:
+      - postgresdata:/bitnami/postgresql
+
+  pgbouncer:
+    build:
+      context: ./pgbouncer
+      dockerfile: Dockerfile
+    container_name: pool
+    environment:
+      - PGBOUNCER_AUTH_USER=${PGBOUNCER_USER}
+      - PGBOUNCER_AUTH_PASSWORD=${PGBOUNCER_PASSWORD}
+      - PGBOUNCER_DATABASE=${DATABASE}
+      - POSTGRESQL_HOST=postgres
+      - POSTGRESQL_USERNAME=${PGBOUNCER_USER}
+      - POSTGRESQL_PASSWORD=${POSTGRES_PASSWORD}
+    depends_on:
+      - postgres
+    networks:
+      - netumo-net
+    expose:
+      - "6432"
+
+  backend:
+    build: ./backend
+    container_name: backend
+    environment:
+      - DATABASE=${DATABASE}
+      - PGBOUNCER_USER=${PGBOUNCER_USER}
+      - PGBOUNCER_PASSWORD=${PGBOUNCER_PASSWORD}
+    depends_on:
+      - pgbouncer
+    networks:
+      - netumo-net
+    expose:
+      - "80"
+
+  redis:
+    image: redis:7-alpine
+    container_name: my-redis-cache
+    networks:
+      - netumo-net
+    expose:
+      - "6379"
+    volumes:
+      - redisdata:/data
 volumes:
   dbdata:
-
+  postgresdata:
+  redisdata:
 networks:
   netumo-net:
     driver: bridge

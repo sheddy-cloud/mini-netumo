@@ -1,10 +1,8 @@
-# backend/api/main.py
-
-# Routers
-from api.routers import (alert, certificate_check, domain_check, status_log,
-                         target, user)
+from api.routers import (alert, auth, certificate_check, domain_check,
+                         status_log, target, user)
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from scheduler import scheduler
 
 app = FastAPI(
     title="Mini Netumo API",
@@ -27,8 +25,8 @@ app.add_middleware(
 def read_root():
     return {"message": "Mini Netumo API is running"}
 
-
 # Include all routers
+app.include_router(auth.router)
 app.include_router(user.router)
 app.include_router(target.router)
 app.include_router(alert.router)

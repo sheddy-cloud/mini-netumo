@@ -77,7 +77,7 @@ export default {
 
     generateSeries() {
       const nameMap = Object.fromEntries(
-        this.targets.map(t => [t.id, t.name])
+        this.targets.map(t => [t.target_id, t.name])
       );
 
       const seriesMap = {};
@@ -96,10 +96,13 @@ export default {
         });
       }
 
+
       this.series = Object.entries(seriesMap).map(([name, data]) => ({
         name,
         data
       }));
+      console.log(this.series)
+      console.log(nameMap)
     }
   }
 };

@@ -45,7 +45,7 @@ export default {
       }
 
       try {
-        await net.put(`${ENDPOINTS.TARGET}${this.target.id}`, {
+        await net.put(`${ENDPOINTS.TARGET}${this.target.target_id}`, {
           name: this.targetName,
           url: this.updatedTargetUrl,
         });

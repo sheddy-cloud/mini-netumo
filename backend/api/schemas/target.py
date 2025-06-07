@@ -3,29 +3,25 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel, ConfigDict, HttpUrl
 
 
 class TargetCreate(BaseModel):
-    user_id: int
-    url: HttpUrl
-    check_interval: int
-    enabled: bool
+    url: str
+    name: str
 
 
 class TargetUpdate(BaseModel):
     url: Optional[HttpUrl] = None
-    check_interval: Optional[int] = None
-    enabled: Optional[bool] = None
+    name: Optional[str] = None
 
 
 class TargetResponse(BaseModel):
-    id: int
+    target_id: int
     user_id: int
-    url: HttpUrl
+    url: str
     check_interval: int
     enabled: bool
     created_at: datetime
-
-    class Config:
-        from_attributes = True
+    name: str
+    model_config = ConfigDict(from_attributes=True)
