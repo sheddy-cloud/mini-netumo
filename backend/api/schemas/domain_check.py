@@ -21,9 +21,12 @@ class DomainCheckUpdate(BaseModel):
     days_remaining: Optional[int] = None
 
 
-class DomainCheckResponse(DomainCheckBase):
-    id: int
-    checked_at: datetime
+class DomainCheckResponse(BaseModel):
+    domain_id: int
+    target_id: int
+    expiry_date: Optional[datetime]
+    days_remaining: Optional[int]
+    checked_at: Optional[datetime]
 
     class Config:
-        from_attributes = True
+        orm_mode = True

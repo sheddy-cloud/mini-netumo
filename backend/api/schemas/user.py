@@ -19,9 +19,21 @@ class UserResponse(BaseModel):
     created_at: Optional[datetime]
 
     class Config:
-        from_attributes = True
+        orm_mode = True
+
+class UserLogin(BaseModel):
+    email: str
+    password: str
+
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
 
 
 class UserUpdate(BaseModel):
     name: Optional[str] = None
     email: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+

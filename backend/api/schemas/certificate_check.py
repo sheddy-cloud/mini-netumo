@@ -21,9 +21,12 @@ class CertificateCheckUpdate(BaseModel):
     days_remaining: Optional[int] = None
 
 
-class CertificateCheckResponse(CertificateCheckBase):
-    id: int
-    checked_at: datetime
+class CertificateCheckResponse(BaseModel):
+    cert_id: int
+    target_id: int
+    expiry_date: Optional[datetime]
+    checked_at: Optional[datetime]
+    days_remaining: Optional[int]
 
     class Config:
-        from_attributes = True
+        orm_mode = True

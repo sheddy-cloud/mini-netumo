@@ -61,8 +61,8 @@ export default {
                         class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li v-for="target in targets" :key="target.id">
-                        <router-link :to="`/targets/${target.id}`">
+                    <li v-for="target in targets" :key="target.target_id">
+                        <router-link :to="`/targets/${target.target_id}`">
                             <i class="bi bi-circle"></i><span>{{ target.name }}</span>
                         </router-link>
                     </li>

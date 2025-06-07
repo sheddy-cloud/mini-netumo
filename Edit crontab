@@ -1,0 +1,6 @@
+#crontab -e
+# Health check every 5 minutes
+*/5 * * * * /bin/bash /path/to/health_check.sh
+
+# Update services every day at 2 AM
+0 2 * * * /bin/bash /path/to/update_services.sh
