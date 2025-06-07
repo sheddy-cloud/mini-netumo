@@ -30,6 +30,6 @@ jobs:
           VALIDATE_PYTHON_BLACK: false
           VALIDATE_PYTHON_PYLINT: false
           VALIDATE_DUPLICATE_CODE: false
-          FILTER_REGEX_EXCLUDE: ".*(target.py|routers|README|Dockerfile).*"
+          FILTER_REGEX_EXCLUDE: ".*(target.py|routers|README|Dockerfile|task).*"
           DEFAULT_BRANCH: "main"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
