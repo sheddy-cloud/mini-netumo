@@ -3,11 +3,11 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel, ConfigDict, HttpUrl
 
 
 class TargetCreate(BaseModel):
-    url: HttpUrl
+    url: str
     name: str
 
 
@@ -19,11 +19,9 @@ class TargetUpdate(BaseModel):
 class TargetResponse(BaseModel):
     target_id: int
     user_id: int
-    url: HttpUrl
+    url: str
     check_interval: int
     enabled: bool
     created_at: datetime
     name: str
-
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)

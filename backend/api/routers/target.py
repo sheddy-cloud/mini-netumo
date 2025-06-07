@@ -29,7 +29,7 @@ def create_target(
         user_id=current_user.id,
         url=target_in.url,
         check_interval=5,
-        enabled=True,
+        enabled=1,
         name=target_in.name,
         created_at=datetime.now(timezone.utc),
     )

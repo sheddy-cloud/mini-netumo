@@ -1,11 +1,12 @@
 # api/routers/auth.py
 
+from api.database import get_db  # function ya getting db session importation
+from api.schemas.user import TokenResponse, UserCreate, UserLogin, UserResponse
+from api.utils import security  # file iliyo na hashing na jwt utils
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from api.schemas.user import UserCreate, UserResponse, UserLogin, TokenResponse
+
 from ..models import User
-from api.utils import security  # file iliyo na hashing na jwt utils
-from api.database import get_db  # function ya getting db session importation
 
 router = APIRouter(
     prefix="/auth",
@@ -40,7 +41,9 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
     if not db_user:
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
-    # Hakiki password
+
+
+    ord
     if not security.verify_password(user.password, db_user.password):
         raise HTTPException(status_code=401, detail="Invalid email or password")
 

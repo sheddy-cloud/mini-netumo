@@ -9,7 +9,7 @@ export const login = async (email, password) => {
     const response = await net.post(ENDPOINTS.LOGIN, {
       email,
       password
-  });
+    });
 
     const token = response.data.access_token;
 
@@ -42,7 +42,7 @@ export const logout = () => {
 
 export const signup = async (name, email, password) => {
   try {
-    await net.post(ENDPOINTS.REGISTER, { name,email, password });
+    await net.post(ENDPOINTS.REGISTER, { name, email, password });
     // Optionally auto-login
   } catch (err) {
     console.error("Signup failed", err);

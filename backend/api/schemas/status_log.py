@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class StatusLogBase(BaseModel):
@@ -28,6 +28,4 @@ class StatusLogResponse(BaseModel):
     status_code: Optional[int] = None
     response_time_ms: Optional[float] = None
     timestamp: Optional[datetime] = None
-
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)

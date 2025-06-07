@@ -40,9 +40,7 @@ export default {
   created() {
     document.title = this.title;
     this.checkAuthentication();
-    this.refresher = setInterval(() => {
-      EventBus.emit('refresh-targets')
-    }, 10000)
+
 
     // Fetch the HEAD of the page to get the X-Node-ID from the response headers
     fetch('/', { method: 'HEAD' })
@@ -70,6 +68,9 @@ export default {
           this.$router.push({ name: 'Login' });
           return;
         }
+        this.refresher = setInterval(() => {
+          EventBus.emit('refresh-targets')
+        }, 10000)
 
       } catch (error) {
         this.sharedErrors.push({ type: 'danger', message: 'Authentication check failed' });
