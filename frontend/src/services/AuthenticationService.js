@@ -1,22 +1,20 @@
 import net from "./NetworkService";
-import router from "../router";
+import router from "../Router/index";
 import ENDPOINTS from "../constants/endpoints";
 
 let session = null;
 
 export const login = async (email, password) => {
   try {
-    const response = await net.post(ENDPOINTS.LOGIN, new URLSearchParams({
-      username,
+    const response = await net.post(ENDPOINTS.LOGIN, {
+      email,
       password
-    }));
+  });
 
     const token = response.data.access_token;
-    const usernameFetched = response.data.username;
 
     // Store token and user in localStorage
     localStorage.setItem("token", token);
-    localStorage.setItem("email", usernameFetched);
     localStorage.setItem("login_time", new Date().toISOString()); // track login time
 
     // Set token in axios headers
@@ -26,7 +24,7 @@ export const login = async (email, password) => {
     session = setInterval(isAuthenticated, 300000);
 
     // Navigate to dashboard
-    router.push("/dashboard");
+    router.push("/");
   } catch (err) {
     console.error("Login failed", err);
     throw err;

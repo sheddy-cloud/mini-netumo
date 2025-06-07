@@ -3,6 +3,7 @@ import BlankFormLayout from '../../Layouts/BlankFormLayout.vue';
 import net from '../../services/NetworkService'; // Network request handler
 import errors from '../../constants/errors'; // Global error store
 import ENDPOINTS from '../../constants/endpoints'; // API endpoints
+import { login } from '../../services/AuthenticationService';
 
 export default {
     name: "LoginForm",
@@ -29,13 +30,7 @@ export default {
 
             try {
                 // Use POST instead of GET
-                const response = await net.post(ENDPOINTS.LOGIN, {
-                    email: this.name,
-                    password: this.password,
-                });
-
-                // Optionally store token here if login is successful
-                // localStorage.setItem('token', response.data.access_token);
+                await login(this.name, this.password)
 
                 errors.value.push({ type: "success", message: 'Login successful!' });
                 this.name = '';
@@ -85,7 +80,7 @@ export default {
                             required
                         />
                     </div>
-                    <button type="submit" class="btn btn-primary w-100" :disabled="loading">
+                    <button type="button" class="btn btn-primary w-100" :disabled="loading" @click="handleLogin">
                         {{ loading ? "Logging in..." : "Login" }}
                     </button>
                 </form>

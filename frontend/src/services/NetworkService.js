@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { API_URL } from '../constants/endpoints'
-import router from '../router' // Make sure this path is correct
+import router from "../Router/index";
 
 const net = axios.create({
   baseURL: API_URL,
@@ -22,5 +22,11 @@ net.interceptors.response.use(
   }
 )
 
-export default net
 
+const token = localStorage.getItem("token")
+
+if (token != null){
+  net.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+}
+
+export default net
