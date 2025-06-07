@@ -29,7 +29,7 @@ app.add_middleware(
 def read_root():
     return {"message": "Mini Netumo API is running"}
 
-@router.get("/start-task/")
+@app.get("/start-task/")
 def start_task():
     task = sample_task.delay(10)  # runs for 10 seconds
     return {"message": "Task started", "task_id": task.id}
