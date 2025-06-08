@@ -73,6 +73,9 @@ jobs:
             # cd /path/to/project
 
             cd /home/ubuntu/app/
+            echo "${{ secrets.ROOT_ENV }}" >> /home/ubuntu/app/.env
+            echo "${{ secrets.BACKEND_ENV }}" >> /home/ubuntu/app/backend/.env
+            
             sudo docker-compose down --remove-orphans
             sudo docker-compose up --build -d
 
