@@ -12,7 +12,7 @@ def schedule_target_monitoring(target_id: int, url: str):
     scheduler.add_job(
         func=celery_app.send_task,
         trigger="interval",
-        seconds=300,
+        seconds=30,
         args=["tasks.monitor_target", [target_id, url]],
         id=job_id,
         replace_existing=True,
@@ -25,7 +25,7 @@ def schedule_cert_check(target_id: int, url: str):
     scheduler.add_job(
         func=celery_app.send_task,
         trigger="interval",
-        seconds=300,
+        seconds=30,
         args=["tasks.cert_check_target", [target_id, url]],
         id=job_id,
         replace_existing=True,
