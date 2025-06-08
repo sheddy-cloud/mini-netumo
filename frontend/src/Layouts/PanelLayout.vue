@@ -55,7 +55,7 @@ export default {
       });
   },
   destroyed(){
-    clearInterval(this.refresher);
+//    clearInterval(this.refresher);
   },
   methods: {
     removeError(index) {
@@ -71,9 +71,6 @@ export default {
           this.$router.push({ name: 'Login' });
           return;
         }
-        this.refresher = setInterval(() => {
-          EventBus.emit('refresh-targets')
-        }, 10000)
 
       } catch (error) {
         this.sharedErrors.push({ type: 'danger', message: 'Authentication check failed' });
