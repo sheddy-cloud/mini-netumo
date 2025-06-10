@@ -49,6 +49,7 @@ export default {
         if (nodeId) {
           this.nodeId = nodeId;
         }
+        console.log('nodeId');
       })
       .catch(err => {
         console.error('Failed to fetch node ID:', err);
@@ -89,13 +90,10 @@ export default {
     <div v-if="loadingAuth" class="loading-spinner" style="text-align:center; padding: 2rem;">
       Loading authentication...
     </div>
-      <!-- Node ID display -->
-      <div>
-        <div v-if="nodeId" class="server-node">
+
+        <div  class="server-node">
           Served by: {{ nodeId }}
         </div>
-
-      </div>
       <div class="pagetitle">
         <h1>{{ title }}</h1>
         <nav>
