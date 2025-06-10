@@ -88,6 +88,7 @@ export default {
   <main id="main" class="main">
     <div v-if="loadingAuth" class="loading-spinner" style="text-align:center; padding: 2rem;">
       Loading authentication...
+    </div>
       <!-- Node ID display -->
       <div>
         <div v-if="nodeId" class="server-node">
@@ -107,9 +108,7 @@ export default {
           </ol>
         </nav>
       </div>
-    </div>
 
-    <div v-else>
       <section class="section dashboard">
         <div class="message position-fixed bottom-0 z-3 p-3" style="z-index: 1000; max-width: 250px; right: 0;">
           <Alert v-for="(error, index) in sharedErrors" :key="index" :type="error.type" :message="error.message"
@@ -117,7 +116,6 @@ export default {
         </div>
         <slot />
       </section>
-    </div>
   </main>
 
 
