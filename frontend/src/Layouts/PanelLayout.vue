@@ -69,7 +69,7 @@ export default {
 
         if (!loggedIn) {
           // Redirect to login page if not authenticated
-          this.$router.push({ name: 'Login' });
+          this.$router.push({ name: 'Dashboard' });
           return;
         }
 
